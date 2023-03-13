@@ -16,7 +16,7 @@ The following environment variables must be set before running the script:
 To run the script, simply run the following command:
 ```
 python3 -m venv matrix-rageshake-crisp
-source myenv/bin/activate
+source matrix-rageshake-crisp/bin/activate
 pip install -r requirements.txt
 python extract_email_from_rageshake_on_crisp.py
 ```

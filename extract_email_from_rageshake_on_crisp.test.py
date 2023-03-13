@@ -1,5 +1,5 @@
 import unittest
-from my_module import user_id_to_email, extract_email_from_message, extract_user_id_from_message
+from extract_email_from_rageshake_on_crisp import user_id_to_email, extract_email_from_message, extract_user_id_from_message
 
 class TestFunctions(unittest.TestCase):
     def test_user_id_to_email(self):

@@ -1,0 +1,38 @@
+{
+  "name": "matrix-rageshake-crisp",
+  "description": "This script searches for conversations on the Crisp API with the state 'pending' and metadata 'email' set to a specific value. ",
+  "repository": "https://github.com/tchapgouv/matrix-rageshake-crisp",
+  "env": {
+    "CRISP_IDENTIFIER": {
+      "description": "Your Crisp API identify",
+      "value": "",
+      "required": true
+    },
+    "CRISP_KEY": {
+        "description": "Your Crisp API key",
+        "value": "",
+        "required": true
+      },
+    "CRISP_WEBSITE_ID": {
+      "description": "The ID of the Crisp website to search for conversations",
+      "value": "",
+      "required": true
+    },
+    "RAGESHAKE_EMAIL": {
+      "description": " The email address to search for in the conversations' metadata.",
+      "value": "",
+      "required": false
+    },
+    "DRY_RUN": {
+      "description": "Set to `True` if you don't want any change to append.",
+      "value": "true",
+      "required": true
+    }
+  },
+  "formation": {
+    "web": {
+      "amount": 0,
+      "size": "S"
+    }
+  }
+}

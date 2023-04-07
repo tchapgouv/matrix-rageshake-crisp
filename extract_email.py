@@ -68,8 +68,6 @@ def process_conversations(conversations: List[Dict]) -> bool:
             print(f"will change {email} to {conversation_id}")
             if not DRY_RUN:
                 update_email(conversation_id, email)
-            if DRY_RUN:
-                return True
 
     return False
 

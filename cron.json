@@ -1,0 +1,8 @@
+{
+    "jobs": [
+      {
+        "command": "*/10 * * * * python3 extract_email.py",
+        "size": "S"
+      }
+    ]
+  }

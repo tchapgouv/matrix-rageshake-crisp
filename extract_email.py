@@ -8,24 +8,15 @@ CRISP_IDENTIFIER = os.environ["CRISP_IDENTIFIER"]
 CRISP_KEY = os.environ["CRISP_KEY"]
 CRISP_WEBSITE_ID = os.environ["CRISP_WEBSITE_ID"]
 DEFAULT_EMAIL = os.environ.get("DEFAULT_EMAIL", "rageshake@beta.gouv.fr")
-ONLY_CHANGE_LAST_ONE = os.environ.get("ONLY_CHANGE_LAST_ONE", "false").lower() == "true"
 DRY_RUN = os.environ.get("DRY_RUN", "true").lower() == "true"
 
 EMAIL_REGEX = r"email: ?\s*\"([^\"]+)\""
-USER_ID_REGEX = r"user_id: ?\s*\"([^\"]+)\""
 
-def user_id_to_email(user_id: str) -> str:
-    username, domain = user_id[1:].split(":")[0].split("-", 1)
-    domain = re.sub(r'\d+$', '', domain)
-    return f"{username}@{domain}"
 
 def extract_email_from_message(message: str) -> Optional[str]:
     email_match = re.search(EMAIL_REGEX, message)
     return email_match.group(1) if email_match else None
 
-def extract_user_id_from_message(message: str) -> Optional[str]:
-    user_id_match = re.search(USER_ID_REGEX, message)
-    return user_id_match.group(1) if user_id_match else None
 
 def get_auth_headers():
     auth_string = f"{CRISP_IDENTIFIER}:{CRISP_KEY}"
@@ -72,17 +63,12 @@ def process_conversations(conversations: List[Dict]) -> bool:
         first_message = messages[0]["content"]
 
         email = extract_email_from_message(first_message)
-        if not email:
-            user_id = extract_user_id_from_message(first_message)
-            print(f"Extract email from {user_id}")
-            if user_id:
-                email = user_id_to_email(user_id)
 
         if email:
             print(f"will change {email} to {conversation_id}")
-            if not ONLY_CHANGE_LAST_ONE:
+            if not DRY_RUN:
                 update_email(conversation_id, email)
-            if ONLY_CHANGE_LAST_ONE:
+            if DRY_RUN:
                 return True
 
     return False

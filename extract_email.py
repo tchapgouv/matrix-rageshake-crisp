@@ -3,6 +3,10 @@ import re
 import requests
 from base64 import b64encode
 from typing import Optional, Dict, List
+from dotenv import load_dotenv
+
+# load environment variables from .env file
+load_dotenv()
 
 CRISP_IDENTIFIER = os.environ["CRISP_IDENTIFIER"]
 CRISP_KEY = os.environ["CRISP_KEY"]

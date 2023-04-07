@@ -6,10 +6,11 @@ This script searches for conversations on the Crisp API with the state "pending"
 
 The following environment variables must be set before running the script:
 
-- `CRISP_API_KEY`: Your Crisp API key.
+- `CRISP_IDENTIFIER`: Your Crisp API identifier.
+- `CRISP_KEY`: Your Crisp API key.
 - `CRISP_WEBSITE_ID`: The ID of the Crisp website to search for conversations.
 - `RAGESHAKE_EMAIL`: The email address to search for in the conversations' metadata.
-- `ONLY_CHANGE_LAST_ONE`: Set to `True` to only change the last conversation that matches the criteria.
+- `DRY_RUN`: Set to `True` if you don't want any change to append.
 
 ## Usage
 

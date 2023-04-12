@@ -104,10 +104,24 @@ def process_conversation(conversation_id:str, verbose=False) -> bool:
         return False
 
 
-def job_process_invalid_rageshake(processConversationIds:ConversationIdStorage,pageMax:int=1):
-    print("**** Start Extraction ****")
+def job_process_invalid_rageshake(processConversationIds:ConversationIdStorage, pageMax:int=1):
+    """
+    Process invalid rageshake in conversations by updating the email in it.
+    
+    Args:
+    - processConversationIds: A ConversationIdStorage object containing the IDs of already processed conversations.
+    - pageMax: An integer indicating the maximum number of pages to process.
+    
+    Returns: None
+    
+    This function retrieves conversations with invalid rageshake from the server and updates them.
+    It processes conversations page by page, starting from page 0 and up to pageMax.
+    For each conversation with an invalid rageshake, it checks if the conversation has already been processed
+    using the given ConversationIdStorage object. If the conversation has not been processed, it updates the
+    participant email.
+    """
+    
     current_page_number = 0
-    total_invalid_rageshake = 0
     total_updated_rageshake = 0
 
     while True:
@@ -136,8 +150,3 @@ def job_process_invalid_rageshake(processConversationIds:ConversationIdStorage,p
 
     print("**** Finish Extraction ****")
     print(f"Invalid rageshake updated {total_updated_rageshake}")
-    print(f"Invalid rageshake remaining {total_invalid_rageshake-total_updated_rageshake}")
-
-if __name__ == "__main__":
-    conversationIdStorage = ConversationIdStorage()
-    job_process_invalid_rageshake(conversationIdStorage)

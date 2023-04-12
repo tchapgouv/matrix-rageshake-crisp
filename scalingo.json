@@ -28,11 +28,5 @@
       "value": "true",
       "required": true
     }
-  },
-  "formation": {
-    "web": {
-      "amount": 0,
-      "size": "S"
-    }
   }
 }

@@ -4,6 +4,8 @@ import requests
 from base64 import b64encode
 from typing import Optional, Dict, List
 from dotenv import load_dotenv
+from ConversationIdStorage import ConversationIdStorage
+
 
 
 """
@@ -25,6 +27,7 @@ DRY_RUN = os.environ.get("DRY_RUN", "true").lower() == "true"
 
 EMAIL_REGEX = r"email: ?\s*\"([^\"]+)\""
 USER_ID_REGEX = r"user_id: ?\s*\"([^\"]+)\""
+
 
 def extract_email_from_message(message: str) -> Optional[str]:
     if not isinstance(message, str):
@@ -80,7 +83,6 @@ def update_email(conversation_id: str, email: str) -> None:
     response = requests.patch(update_url, headers=headers, json=update_payload)
     response.raise_for_status()
 
-
 def process_conversation(conversation_id:str, verbose=False) -> bool:
         print(f"# Extract data from {conversation_id}")
         messages = get_messages(conversation_id)
@@ -90,8 +92,6 @@ def process_conversation(conversation_id:str, verbose=False) -> bool:
 
         if verbose: 
             print(f"all messages : {combined_messages}")
-
-
 
         email = extract_email_from_message(combined_messages)
         userId = extract_user_id_from_message(combined_messages)
@@ -104,36 +104,40 @@ def process_conversation(conversation_id:str, verbose=False) -> bool:
         return False
 
 
-def process_conversations(conversations: List[Dict]) -> int:
-    total_updated_rageshake=0
-    for conversation in conversations:
-        if(process_conversation(conversation["session_id"])):
-            total_updated_rageshake+=1
-    
-    return total_updated_rageshake
-
-def main():
+def job_process_invalid_rageshake(processConversationIds:ConversationIdStorage,pageMax:int=1):
     print("**** Start Extraction ****")
-    page_number = 0
+    current_page_number = 0
     total_invalid_rageshake = 0
     total_updated_rageshake = 0
+
     while True:
-        conversations = get_invalid_conversations(page_number)
-        total_invalid_rageshake += len(conversations)
-        
-        print(f"In page {page_number}, # conversations with invalid rageshake : {len(conversations)}")
+        if current_page_number >= pageMax:
+            break
+
+        conversations = get_invalid_conversations(current_page_number)
+        print(f"In page {current_page_number}, # conversations with invalid rageshake : {len(conversations)}")
 
         if not conversations:
             break
 
-        total_updated_rageshake += process_conversations(conversations)
+        for conversation in conversations:
+            conversation_id = conversation["session_id"]
+            
+            #do not process conversation already processed
+            if processConversationIds.has(conversation_id):
+                print(f"Conversation already processed : {conversation_id}")
+            else:    
+                if process_conversation(conversation_id):
+                    total_updated_rageshake+=1
+
+                processConversationIds.add(conversation_id)
         
-        page_number += 1
+        current_page_number += 1
 
     print("**** Finish Extraction ****")
-    print(f"Invalid rageshake found {total_invalid_rageshake}")
     print(f"Invalid rageshake updated {total_updated_rageshake}")
     print(f"Invalid rageshake remaining {total_invalid_rageshake-total_updated_rageshake}")
 
 if __name__ == "__main__":
-    main()
+    conversationIdStorage = ConversationIdStorage()
+    job_process_invalid_rageshake(conversationIdStorage)

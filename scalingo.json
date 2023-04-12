@@ -28,5 +28,15 @@
       "value": "true",
       "required": true
     }
+  },
+  "formation": {
+    "web": {
+      "amount": 0,
+      "size": "S"
+    }, 
+    "cron": {
+      "amount": 1,
+      "size": "S"
+    }
   }
 }

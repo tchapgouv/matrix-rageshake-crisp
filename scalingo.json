@@ -27,6 +27,11 @@
       "description": "Set to `True` if you don't want any change to append.",
       "value": "true",
       "required": true
+    },
+    "SCHEDULE_CRISP_INVALID_RAGESHAKE": {
+      "description": "CRON schedule for the job job_process_invalid_rageshake in seconds",
+      "value": "60",
+      "required": true
     }
   },
   "formation": {

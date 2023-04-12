@@ -11,6 +11,7 @@ The following environment variables must be set before running the script:
 - `CRISP_WEBSITE_ID`: The ID of the Crisp website to search for conversations.
 - `RAGESHAKE_EMAIL`: The email address to search for in the conversations' metadata.
 - `DRY_RUN`: Set to `True` if you don't want any change to append.
+- `SCHEDULE_CRISP_INVALID_RAGESHAKE`: cron schedule for the job crips invalid rageshake (by default 60 seconds)
 
 ## Usage
 

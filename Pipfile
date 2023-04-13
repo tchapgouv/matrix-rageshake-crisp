@@ -1,2 +1,9 @@
 [requires]
-python_version = "3.7"
+python_version = "3.11.2"
+
+[packages]
+requests= "2.28.2"
+python-dotenv = "*"
+schedule = "*"
+
+[dev-packages]

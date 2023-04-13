@@ -17,7 +17,7 @@ def start_cron():
     
     while True:
         schedule.run_pending()
-        time.sleep(1)
+        time.sleep(30)# the cron will check every 30 seconds if there is a job to run
 
 
 if __name__ == "__main__":

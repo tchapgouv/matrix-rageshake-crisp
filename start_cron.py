@@ -12,8 +12,8 @@ from ConversationIdStorage import ConversationIdStorage
 processConversationIds = ConversationIdStorage()
 
 def start_cron():
-    cron_shedule = os.environ["SCHEDULE_CRISP_INVALID_RAGESHAKE"]
-    schedule.every(cron_shedule).seconds.do(job_process_invalid_rageshake, processConversationIds=processConversationIds)
+    cron_shedule:str = os.environ["SCHEDULE_CRISP_INVALID_RAGESHAKE"]
+    schedule.every(int(cron_shedule)).seconds.do(job_process_invalid_rageshake, processConversationIds=processConversationIds)
     
     while True:
         schedule.run_pending()

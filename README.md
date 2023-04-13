@@ -21,6 +21,9 @@ pipenv install
 python3 extract_email_from_rageshake_on_crisp.py
 ```
 
+## deployment
+Deactivate the web process in scalingo : https://doc.scalingo.com/platform/app/web-less-app
+
 ## Tests
 
 ```

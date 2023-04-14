@@ -84,6 +84,7 @@ def update_email(conversation_id: str, email: str) -> None:
     response.raise_for_status()
 
 def process_conversation(conversation_id:str, verbose=False) -> bool:
+    try:
         print(f"# Extract data from {conversation_id}")
         messages = get_messages(conversation_id)
         #first_message = messages[0]["content"]
@@ -102,9 +103,14 @@ def process_conversation(conversation_id:str, verbose=False) -> bool:
                 update_email(conversation_id, email)
                 return True
         return False
+    except Exception as e:
+        #do not fail script
+        print(f"error in {conversation_id} : {e}")
+        return False
 
 
 def job_process_invalid_rageshake(processConversationIds:ConversationIdStorage, pageMax:int=1):
+    
     """
     Process invalid rageshake in conversations by updating the email in it.
     
@@ -128,7 +134,8 @@ def job_process_invalid_rageshake(processConversationIds:ConversationIdStorage, 
         if current_page_number >= pageMax:
             break
 
-        conversations = get_invalid_conversations(current_page_number)
+        
+        conversations = get_invalid_conversations(current_page_number) #fails script if can not get invalid conversations
         print(f"In page {current_page_number}, # conversations with invalid rageshake : {len(conversations)}")
 
         if not conversations:
@@ -141,7 +148,7 @@ def job_process_invalid_rageshake(processConversationIds:ConversationIdStorage, 
             if processConversationIds.has(conversation_id):
                 print(f"Conversation already processed : {conversation_id}")
             else:    
-                if process_conversation(conversation_id):
+                if process_conversation(conversation_id): 
                     total_updated_rageshake+=1
 
                 processConversationIds.add(conversation_id)

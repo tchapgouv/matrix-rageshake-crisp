@@ -83,6 +83,26 @@ def update_email(conversation_id: str, email: str) -> None:
     response = requests.patch(update_url, headers=headers, json=update_payload)
     response.raise_for_status()
 
+#written with ai assist
+def extract_email_from_user_id(user_id):
+    # Dictionary mapping domain regex to extraction function
+    domain_regexes = {
+        r"diplomatie\.gouv\.fr": lambda m: f"{m.group(1)}@diplomatie.gouv.fr",
+        r"intradef\.gouv\.fr": lambda m: f"{m.group(1)}@intradef.gouv.fr",
+        r"ap-hm\.fr": lambda m: f"{m.group(1)}@ap-hm.fr",
+        r"gendarmerie\.interieur\.gouv\.fr": lambda m: f"{m.group(1)}@gendarmerie.interieur.gouv.fr",
+        r"ac-aix-marseille\.fr": lambda m: f"{m.group(1)}@ac-aix-marseille.fr",
+        r"douane\.finances\.gouv\.fr": lambda m: f"{m.group(1)}@douane.finances.gouv.fr",
+    }
+
+    for domain_regex, extraction_func in domain_regexes.items():
+        match = re.search(fr"@([-\w\.]+)-{domain_regex}", user_id)
+        if match:
+            return extraction_func(match)
+
+    return None
+
+
 def process_conversation(conversation_id:str, verbose=False) -> bool:
     try:
         print(f"# Extract data from {conversation_id}")
@@ -98,6 +118,9 @@ def process_conversation(conversation_id:str, verbose=False) -> bool:
         userId = extract_user_id_from_message(combined_messages)
         print(f"found in {conversation_id}: userId: {userId}, email {email}")
 
+        if not email:
+            email = extract_email_from_user_id(userId)
+        
         if email:
             if not DRY_RUN:
                 update_email(conversation_id, email)

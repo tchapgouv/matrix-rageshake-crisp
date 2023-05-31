@@ -93,6 +93,7 @@ def extract_email_from_user_id(user_id):
         r"gendarmerie\.interieur\.gouv\.fr": lambda m: f"{m.group(1)}@gendarmerie.interieur.gouv.fr",
         r"ac-aix-marseille\.fr": lambda m: f"{m.group(1)}@ac-aix-marseille.fr",
         r"douane\.finances\.gouv\.fr": lambda m: f"{m.group(1)}@douane.finances.gouv.fr",
+        r"finances\.gouv\.fr": lambda m: f"{m.group(1)}@finances.gouv.fr",
     }
 
     for domain_regex, extraction_func in domain_regexes.items():

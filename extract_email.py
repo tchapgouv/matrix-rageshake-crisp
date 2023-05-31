@@ -84,6 +84,8 @@ def update_email(conversation_id: str, email: str) -> None:
     response.raise_for_status()
 
 #written with ai assist
+#this function uses custom regex to extract email
+#we want to avoid false positive, this is why we dont use a general regexp
 def extract_email_from_user_id(user_id):
     # Dictionary mapping domain regex to extraction function
     domain_regexes = {

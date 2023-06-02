@@ -93,6 +93,7 @@ def extract_email_from_user_id(user_id):
         r"intradef\.gouv\.fr": lambda m: f"{m.group(1)}@intradef.gouv.fr",
         r"ap-hm\.fr": lambda m: f"{m.group(1)}@ap-hm.fr",
         r"gendarmerie\.interieur\.gouv\.fr": lambda m: f"{m.group(1)}@gendarmerie.interieur.gouv.fr",
+        r"interieur\.gouv\.fr": lambda m: f"{m.group(1)}@interieur.gouv.fr",
         r"ac-aix-marseille\.fr": lambda m: f"{m.group(1)}@ac-aix-marseille.fr",
         r"douane\.finances\.gouv\.fr": lambda m: f"{m.group(1)}@douane.finances.gouv.fr",
         r"finances\.gouv\.fr": lambda m: f"{m.group(1)}@finances.gouv.fr",

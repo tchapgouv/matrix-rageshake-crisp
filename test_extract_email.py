@@ -5,10 +5,10 @@ class TestFunctions(unittest.TestCase):
         
 
     def test_conversation(self):
-        conversationId = "session_56c61974-7189-42ce-be8c-d697457463be"
+        conversationId = "session_b825989a-04e7-4cc7-8ee7-3d32f389219e"
         #conversationId = "session_c28bb18b-45c5-420c-ab4f-3dd0a6da713f" #conversion found by email
         #session_56c61974-7189-42ce-be8c-d697457463be/
-        conversation = process_conversation(conversationId , False)
+        conversation = process_conversation(conversationId , True)
         #print(f'conversion : {conversation}')
 
 

@@ -122,7 +122,7 @@ def process_conversation(conversation_id:str, verbose=False) -> bool:
         userId = extract_user_id_from_message(combined_messages)
         print(f"found in {conversation_id}: userId: {userId}, email {email}")
 
-        if not email:
+        if not email or email == 'undefined':
             email = extract_email_from_user_id(userId)
         
         if email:

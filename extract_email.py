@@ -94,15 +94,14 @@ def extract_email_from_user_id(user_id):
         r"ap-hm\.fr": lambda m: f"{m.group(1)}@ap-hm.fr",
         r"gendarmerie\.interieur\.gouv\.fr": lambda m: f"{m.group(1)}@gendarmerie.interieur.gouv.fr",
         r"interieur\.gouv\.fr": lambda m: f"{m.group(1)}@interieur.gouv.fr",
-        r"ac-aix-marseille\.fr": lambda m: f"{m.group(1)}@ac-aix-marseille.fr",
+        r"ac-[-\w\.]+\.fr": lambda m: f"{m.group(1)}@{m.group(2)}",  # Generic rule for domains starting with "ac-"
         r"douane\.finances\.gouv\.fr": lambda m: f"{m.group(1)}@douane.finances.gouv.fr",
         r"finances\.gouv\.fr": lambda m: f"{m.group(1)}@finances.gouv.fr",
         r"dgfip\.finances\.gouv\.fr": lambda m: f"{m.group(1)}@dgfip.finances.gouv.fr",
-        
     }
 
     for domain_regex, extraction_func in domain_regexes.items():
-        match = re.search(fr"@([-\w\.]+)-{domain_regex}", user_id)
+        match = re.search(fr"@([-\w\.]+)-({domain_regex})", user_id)
         if match:
             return extraction_func(match)
 

@@ -52,7 +52,11 @@ class TestFunctions(unittest.TestCase):
             ("@ppp.lll-ccc-douane.finances.gouv.fr:agent.finances.tchap.gouv.fr", 
              "ppp.lll-ccc@douane.finances.gouv.fr"),
             ("@fff.mmm-intradef.gouv.fr:agent.intradef.tchap.gouv.fr", 
-             "fff.mmm@intradef.gouv.fr")
+             "fff.mmm@intradef.gouv.fr"),
+            ("@mmm.rrr-ac-aix-marseille.fr:agent.education.tchap.gouv.fr", 
+             "mmm.rrr@ac-aix-marseille.fr"), 
+             ("@ll.fff-ac-toulouse.fr:agent.education.tchap.gouv.fr", 
+             "ll.fff@ac-toulouse.fr")
         ]
 
         for user_id, expected_email in test_cases:

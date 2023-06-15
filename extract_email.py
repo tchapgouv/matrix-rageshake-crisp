@@ -86,17 +86,6 @@ def get_conversation_meta(conversation_id: str) -> dict:
     response.raise_for_status()  # s'assurer que la requête a été réussie
     return response.json()  # renvoie le contenu de la réponse en tant que dictionnaire JSON
 
-# def get_messages_in_conversation(conversation_id: str, timestamp_before: int = None) -> list:
-#     url = f"https://api.crisp.chat/v1/website/{CRISP_WEBSITE_ID}/conversation/{conversation_id}/messages"
-#     if timestamp_before:
-#         url += f"?timestamp_before={timestamp_before}"
-#     headers = get_auth_headers()
-#     response = requests.get(url, headers=headers)
-#     response.raise_for_status()  # vérifier que la requête a réussi
-#     messages_data = response.json()  # obtenir le contenu de la réponse en tant que dictionnaire JSON
-#     messages_content = [message.get('content') for message in messages_data.get('data', [])]
-#     return messages_content
-
 def update_conversation_meta(conversation_id: str, email: str = None, segments: list[str] = None) -> None:
     
     #get existing segments, return empty array if no segment

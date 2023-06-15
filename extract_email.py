@@ -97,7 +97,7 @@ def update_conversation_meta(conversation_id: str, email: str = None, segments: 
     #get existing segments, return empty array if no segment
     existing_segments = list(get_conversation_meta(conversation_id)["data"]["segments"])
     
-    print(f"update {email} and {segments} in {conversation_id} with existing segments {existing_segments}")
+    print(f"update {email} and segment {segments} in {conversation_id} with existing segments {existing_segments}")
     update_url = f"https://api.crisp.chat/v1/website/{CRISP_WEBSITE_ID}/conversation/{conversation_id}/meta"
     update_payload = {}
     if email: # si email n'est pas None ou vide
@@ -105,6 +105,7 @@ def update_conversation_meta(conversation_id: str, email: str = None, segments: 
 
     if segments: # si segments n'est pas None ou vide
         update_payload["segments"] = list(set(existing_segments + segments)) # l'ordre n'est pas conservé, il peut changer
+    
     headers = get_auth_headers()
     response = requests.patch(update_url, headers=headers, json=update_payload)
     response.raise_for_status()
@@ -175,8 +176,8 @@ def process_conversation(conversation_id:str, verbose=False) -> bool:
         
         if email:
             if not DRY_RUN:
-                segments = extract_segment(combined_messages)
-                update_conversation_meta(conversation_id, email, [segments])
+                segment = extract_segment(combined_messages)
+                update_conversation_meta(conversation_id, email, [segment])
                 return True
         return False
     except Exception as e:

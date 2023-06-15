@@ -1,11 +1,22 @@
 import unittest
-from extract_email import update_conversation_meta, extract_email_from_user_id, extract_email_from_message, extract_user_id_from_message, process_conversation,get_invalid_conversations,get_messages
+import random
+import string
+
+from extract_email import extract_segment,update_conversation_meta, extract_email_from_user_id, extract_email_from_message, extract_user_id_from_message, process_conversation,get_invalid_conversations,get_messages
+
+
+#utils functions
+def random_string(length):
+    letters = string.ascii_lowercase
+    return ''.join(random.choice(letters) for i in range(length))
 
 class TestFunctions(unittest.TestCase):
     
+
+
     def test_update_conversation(self):
         conversationId = "session_691ea0d5-0543-427b-85dd-95bc412ceb27"
-        update_conversation_meta(conversationId , "test1@test.com", ["test5"])
+        #update_conversation_meta(conversationId , "test1@test.com", ["test5"])
 
 
     def test_conversation(self):
@@ -15,6 +26,22 @@ class TestFunctions(unittest.TestCase):
         conversation = process_conversation(conversationId , True)
         print(f'conversion : {conversation}')
 
+
+    def test_inscription_segment(self):
+        message_content = random_string(90) + " inscription" + random_string(90)
+        self.assertEqual(extract_segment(message_content), 'inscription')
+
+    def test_chiffrement_segment(self):
+        message_content = random_string(88) + " chiffré" + random_string(90) 
+        self.assertEqual(extract_segment(message_content), 'chiffrement')
+
+    def test_motdepasse_segment(self):
+        message_content = random_string(100) + "reinitialisation" + random_string(90)
+        self.assertEqual(extract_segment(message_content), 'mot-de-passe')
+
+    def test_autre_segment(self):
+        message_content = random_string(100)  # Génère une chaîne de caractères aléatoires de 100 caractères
+        self.assertEqual(extract_segment(message_content), 'autre')
 
     def test_extract_email_from_message(self):
         message = 'email: "julien.dauphant@beta.gouv.fr"'

@@ -1,16 +1,47 @@
 import unittest
-from extract_email import  extract_email_from_user_id, extract_email_from_message, extract_user_id_from_message, process_conversation,get_invalid_conversations,get_messages
+import random
+import string
+
+from extract_email import extract_segment,update_conversation_meta, extract_email_from_user_id, extract_email_from_message, extract_user_id_from_message, process_conversation,get_invalid_conversations,get_messages
+
+
+#utils functions
+def random_string(length):
+    letters = string.ascii_lowercase
+    return ''.join(random.choice(letters) for i in range(length))
 
 class TestFunctions(unittest.TestCase):
-        
+    
+
+
+    def test_update_conversation(self):
+        conversationId = "session_691ea0d5-0543-427b-85dd-95bc412ceb27"
+        #update_conversation_meta(conversationId , "test1@test.com", ["test5"])
+
 
     def test_conversation(self):
-        conversationId = "session_b825989a-04e7-4cc7-8ee7-3d32f389219e"
+        conversationId = "session_ef67dfdd-4f0f-480f-abe2-81f989bfbed7"
         #conversationId = "session_c28bb18b-45c5-420c-ab4f-3dd0a6da713f" #conversion found by email
         #session_56c61974-7189-42ce-be8c-d697457463be/
         conversation = process_conversation(conversationId , True)
-        #print(f'conversion : {conversation}')
+        print(f'conversion : {conversation}')
 
+
+    def test_inscription_segment(self):
+        message_content = random_string(90) + " inscription" + random_string(90)
+        self.assertEqual(extract_segment(message_content), 'inscription')
+
+    def test_chiffrement_segment(self):
+        message_content = random_string(88) + " chiffré" + random_string(90) 
+        self.assertEqual(extract_segment(message_content), 'chiffrement')
+
+    def test_motdepasse_segment(self):
+        message_content = random_string(100) + "reinitialisation" + random_string(90)
+        self.assertEqual(extract_segment(message_content), 'mot-de-passe')
+
+    def test_autre_segment(self):
+        message_content = random_string(100)  # Génère une chaîne de caractères aléatoires de 100 caractères
+        self.assertEqual(extract_segment(message_content), 'autre')
 
     def test_extract_email_from_message(self):
         message = 'email: "julien.dauphant@beta.gouv.fr"'
@@ -63,7 +94,4 @@ class TestFunctions(unittest.TestCase):
             self.assertEqual(extract_email_from_user_id(user_id), expected_email)
 
 if __name__ == "__main__":
-    unittest.main()
-
-if __name__ == '__main__':
-    unittest.main()
+    unittest.main() 

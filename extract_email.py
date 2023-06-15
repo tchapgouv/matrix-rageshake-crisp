@@ -28,6 +28,11 @@ DRY_RUN = os.environ.get("DRY_RUN", "true").lower() == "true"
 EMAIL_REGEX = r"email: ?\s*\"([^\"]+)\""
 USER_ID_REGEX = r"user_id: ?\s*\"([^\"]+)\""
 
+SEGMENT_SEND_RESPONSE = "bot-send-response"
+SEGMENT_CHIFFREMENT = "chiffrement"
+SEGMENT_MOT_DE_PASSE = "mot-de-passe"
+SEGMENT_INCRISPTION = "inscription"
+SEGMENT_AUTRE = "autre"
 
 def extract_email_from_message(message: str) -> Optional[str]:
     if not isinstance(message, str):
@@ -139,22 +144,22 @@ def extract_segment(message_content: str) -> str:
     inscription_terms = ['inscript', 'inscrire', 'compte']
     for term in inscription_terms:
         if term in message_content.lower():
-            return 'inscription'
+            return SEGMENT_INCRISPTION
     
     # Liste des termes associés au segment 'chiffrement'
     chiffrement_terms = ['clé', 'chiffr', 'clef', 'cléf', 'crypt', 'illisible', 'vérouill', 'verrouill']
     for term in chiffrement_terms:
         if term in message_content.lower():
-            return 'chiffrement'
+            return SEGMENT_CHIFFREMENT
     
- # Liste des termes associés au segment 'mot-de-passe'
+    # Liste des termes associés au segment 'mot-de-passe'
     chiffrement_terms = ['initialis', 'mot de passe', 'mdp', 'password', 'reset']
     for term in chiffrement_terms:
         if term in message_content.lower():
-            return 'mot-de-passe'
+            return SEGMENT_MOT_DE_PASSE
 
 
-    return 'autre'  # Retourne None si aucun des termes n'est trouvé
+    return SEGMENT_AUTRE  # Retourne aucun si aucun des termes n'est trouvé
 
 def process_conversation(conversation_id:str, verbose=False) -> bool:
     try:
@@ -177,7 +182,10 @@ def process_conversation(conversation_id:str, verbose=False) -> bool:
         if email:
             if not DRY_RUN:
                 segment = extract_segment(combined_messages)
-                update_conversation_meta(conversation_id, email, [segment])
+                #add segment SEGMENT_SEND_RESPONSE to activate the bot workflow send response
+                #this workflow is : "on Segment update - envoie message"
+                segments =[segment, SEGMENT_SEND_RESPONSE]
+                update_conversation_meta(conversation_id, email, segments)
                 return True
         return False
     except Exception as e:

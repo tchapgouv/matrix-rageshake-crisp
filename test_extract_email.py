@@ -20,7 +20,7 @@ class TestFunctions(unittest.TestCase):
 
 
     def test_conversation(self):
-        conversationId = "session_691ea0d5-0543-427b-85dd-95bc412ceb27"
+        conversationId = "session_ef67dfdd-4f0f-480f-abe2-81f989bfbed7"
         #conversationId = "session_c28bb18b-45c5-420c-ab4f-3dd0a6da713f" #conversion found by email
         #session_56c61974-7189-42ce-be8c-d697457463be/
         conversation = process_conversation(conversationId , True)

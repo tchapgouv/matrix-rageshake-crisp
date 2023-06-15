@@ -73,12 +73,38 @@ def get_messages(conversation_id: str) -> List[Dict]:
     response.raise_for_status()
     return response.json()["data"]
 
-def update_email(conversation_id: str, email: str) -> None:
-    print(f"update {email} in {conversation_id}")
+
+def get_conversation_meta(conversation_id: str) -> dict:
+    url = f"https://api.crisp.chat/v1/website/{CRISP_WEBSITE_ID}/conversation/{conversation_id}/meta"
+    headers = get_auth_headers()
+    response = requests.get(url, headers=headers)
+    response.raise_for_status()  # s'assurer que la requête a été réussie
+    return response.json()  # renvoie le contenu de la réponse en tant que dictionnaire JSON
+
+# def get_messages_in_conversation(conversation_id: str, timestamp_before: int = None) -> list:
+#     url = f"https://api.crisp.chat/v1/website/{CRISP_WEBSITE_ID}/conversation/{conversation_id}/messages"
+#     if timestamp_before:
+#         url += f"?timestamp_before={timestamp_before}"
+#     headers = get_auth_headers()
+#     response = requests.get(url, headers=headers)
+#     response.raise_for_status()  # vérifier que la requête a réussi
+#     messages_data = response.json()  # obtenir le contenu de la réponse en tant que dictionnaire JSON
+#     messages_content = [message.get('content') for message in messages_data.get('data', [])]
+#     return messages_content
+
+def update_conversation_meta(conversation_id: str, email: str = None, segments: list[str] = None) -> None:
+    
+    #get existing segments, return empty array if no segment
+    existing_segments = list(get_conversation_meta(conversation_id)["data"]["segments"])
+    
+    print(f"update {email} and {segments} in {conversation_id} with existing segments {existing_segments}")
     update_url = f"https://api.crisp.chat/v1/website/{CRISP_WEBSITE_ID}/conversation/{conversation_id}/meta"
-    update_payload = {
-        "email": email
-    }
+    update_payload = {}
+    if email: # si email n'est pas None ou vide
+        update_payload["email"] = email
+
+    if segments: # si segments n'est pas None ou vide
+        update_payload["segments"] = list(set(existing_segments + segments)) # l'ordre n'est pas conservé, il peut changer
     headers = get_auth_headers()
     response = requests.patch(update_url, headers=headers, json=update_payload)
     response.raise_for_status()
@@ -107,6 +133,27 @@ def extract_email_from_user_id(user_id):
 
     return None
 
+def extract_segment(message_content: str) -> str:
+    # Liste des termes associés au segment 'inscription'
+    inscription_terms = ['inscript', 'inscrire', 'compte']
+    for term in inscription_terms:
+        if term in message_content.lower():
+            return 'inscription'
+    
+    # Liste des termes associés au segment 'chiffrement'
+    chiffrement_terms = ['clé', 'chiffr', 'clef', 'cléf', 'crypt', 'illisible', 'vérouill', 'verrouill']
+    for term in chiffrement_terms:
+        if term in message_content.lower():
+            return 'chiffrement'
+    
+ # Liste des termes associés au segment 'mot-de-passe'
+    chiffrement_terms = ['initialis', 'mot de passe', 'mdp', 'password', 'reset']
+    for term in chiffrement_terms:
+        if term in message_content.lower():
+            return 'mot-de-passe'
+
+
+    return 'autre'  # Retourne None si aucun des termes n'est trouvé
 
 def process_conversation(conversation_id:str, verbose=False) -> bool:
     try:
@@ -128,7 +175,8 @@ def process_conversation(conversation_id:str, verbose=False) -> bool:
         
         if email:
             if not DRY_RUN:
-                update_email(conversation_id, email)
+                segments = extract_segment(combined_messages)
+                update_conversation_meta(conversation_id, email, [segments])
                 return True
         return False
     except Exception as e:

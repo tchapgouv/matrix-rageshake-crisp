@@ -1,15 +1,19 @@
 import unittest
-from extract_email import  extract_email_from_user_id, extract_email_from_message, extract_user_id_from_message, process_conversation,get_invalid_conversations,get_messages
+from extract_email import update_conversation_meta, extract_email_from_user_id, extract_email_from_message, extract_user_id_from_message, process_conversation,get_invalid_conversations,get_messages
 
 class TestFunctions(unittest.TestCase):
-        
+    
+    def test_update_conversation(self):
+        conversationId = "session_691ea0d5-0543-427b-85dd-95bc412ceb27"
+        update_conversation_meta(conversationId , "test1@test.com", ["test5"])
+
 
     def test_conversation(self):
-        conversationId = "session_b825989a-04e7-4cc7-8ee7-3d32f389219e"
+        conversationId = "session_691ea0d5-0543-427b-85dd-95bc412ceb27"
         #conversationId = "session_c28bb18b-45c5-420c-ab4f-3dd0a6da713f" #conversion found by email
         #session_56c61974-7189-42ce-be8c-d697457463be/
         conversation = process_conversation(conversationId , True)
-        #print(f'conversion : {conversation}')
+        print(f'conversion : {conversation}')
 
 
     def test_extract_email_from_message(self):
@@ -63,7 +67,4 @@ class TestFunctions(unittest.TestCase):
             self.assertEqual(extract_email_from_user_id(user_id), expected_email)
 
 if __name__ == "__main__":
-    unittest.main()
-
-if __name__ == '__main__':
-    unittest.main()
+    unittest.main() 

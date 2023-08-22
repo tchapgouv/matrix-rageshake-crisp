@@ -6,7 +6,7 @@ from typing import Optional, Dict, List
 from dotenv import load_dotenv
 from ConversationIdStorage import ConversationIdStorage
 
-
+from utils import get_auth_headers
 
 """
 This script is meant to be run every minute or so by a cron job
@@ -18,8 +18,7 @@ and to replace it by the real email of the participant if it can be found in the
 # load environment variables from .env file
 load_dotenv()
 
-CRISP_IDENTIFIER = os.environ["CRISP_IDENTIFIER"]
-CRISP_KEY = os.environ["CRISP_KEY"]
+
 CRISP_WEBSITE_ID = os.environ["CRISP_WEBSITE_ID"]
 DEFAULT_EMAIL = os.environ.get("DEFAULT_EMAIL", "rageshake@beta.gouv.fr")
 DEFAULT_EMAIL = os.environ.get("RAGESHAKE_NAME", "Tchap Rageshake")
@@ -48,13 +47,8 @@ def extract_user_id_from_message(message: str) -> Optional[str]:
     user_id_match = re.search(USER_ID_REGEX, message)
     return user_id_match.group(1) if user_id_match else None
 
-def get_auth_headers():
-    auth_string = f"{CRISP_IDENTIFIER}:{CRISP_KEY}"
-    auth_string_b64 = b64encode(auth_string.encode("utf-8")).decode("utf-8")
-    return {
-        "Authorization": f"Basic {auth_string_b64}",
-        "X-Crisp-Tier": "plugin",
-    }
+
+
 
 def get_invalid_conversations(page_number: int) -> List[Dict]:
     #url = f"https://api.crisp.chat/v1/website/{CRISP_WEBSITE_ID}/conversations/"

@@ -3,36 +3,44 @@ import random
 import string
 import datetime
 
-from sleepy_conversations import get_sleepy_conversations
+from sleepy_conversations import get_sleepy_conversations,change_conversation_state,get_conversation_state, send_message, wakeup_sleepy_conversation
 
+conversation_id = "session_691ea0d5-0543-427b-85dd-95bc412ceb27"
+
+test1 = conversation_id
 
 class TestFunctions(unittest.TestCase):
+    
     
     def test_get_sleepy_conversation(self):
         sleepy_conversations = get_sleepy_conversations(3)
         print(f'sleepy conversations : {len(sleepy_conversations)}')
-        for sleepy_conversation in sleepy_conversations:
-            if visitor_has_unread_messages(sleepy_conversation) and is_older_than_seven_days(sleepy_conversation):
-                print(f'sleepy conversation session_id : {sleepy_conversation["session_id"]}')
-                print(f'sleepy conversation last update : {sleepy_conversation["updated_at"]}')
+        
+
+    def test_must_send_message(self):
+       simple_message = "coucou"
+       send_message(conversation_id, simple_message)
+
+    def test_must_send_multiline_message_with_markdown(self):
+       message = """*coucou*
+                    
+                    ca roule?
+
+                    Moi ca va
+                    """
+       send_message(conversation_id, message)
+
+    def test_must_change_state(self):
+        new_state = "pending"
+        change_conversation_state(conversation_id, new_state)
+        state = get_conversation_state(conversation_id)
+        print(state)
+        self.assertEqual(state, new_state)
+
+    def test_wakeup_sleepy_conversation(self):
+        wakeup_sleepy_conversation(test1)
 
 
-def visitor_has_unread_messages(conversation):
-    return conversation["unread"]["visitor"] > 0
-
-def is_older_than_seven_days(conversation):
-    timestamp = conversation["updated_at"]/1000
-
-    # Current date
-    today = datetime.datetime.now()
-
-    # Date from the timestamp
-    timestamp_date = datetime.datetime.fromtimestamp(timestamp)
-
-    difference = today - timestamp_date
-
-    # Check if the difference is greater than 7 days
-    return difference.days > 7
 
 if __name__ == "__main__":
     unittest.main() 

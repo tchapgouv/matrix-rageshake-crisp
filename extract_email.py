@@ -6,7 +6,7 @@ from typing import Optional, Dict, List
 from dotenv import load_dotenv
 from ConversationIdStorage import ConversationIdStorage
 
-from utils import get_auth_headers
+from utils import get_auth_headers, get_messages
 
 """
 This script is meant to be run every minute or so by a cron job
@@ -65,12 +65,7 @@ def get_invalid_conversations(page_number: int) -> List[Dict]:
 
     return response.json()["data"]
 
-def get_messages(conversation_id: str) -> List[Dict]:
-    messages_url = f"https://api.crisp.chat/v1/website/{CRISP_WEBSITE_ID}/conversation/{conversation_id}/messages/"
-    headers = get_auth_headers()
-    response = requests.get(messages_url, headers=headers)
-    response.raise_for_status()
-    return response.json()["data"]
+
 
 
 def get_conversation_meta(conversation_id: str) -> dict:

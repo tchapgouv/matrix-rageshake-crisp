@@ -7,13 +7,13 @@ from sleepy_conversations import get_sleepy_conversations,change_conversation_st
 
 conversation_id = "session_691ea0d5-0543-427b-85dd-95bc412ceb27"
 
-test1 = conversation_id
-
 class TestFunctions(unittest.TestCase):
     
     
     def test_get_sleepy_conversation(self):
-        sleepy_conversations = get_sleepy_conversations(3)
+        sleepy_conversations = sleepy_conversations + get_sleepy_conversations(2)
+        sleepy_conversations = sleepy_conversations + get_sleepy_conversations(3)
+        sleepy_conversations = sleepy_conversations + get_sleepy_conversations(4)
         print(f'sleepy conversations : {len(sleepy_conversations)}')
         
 
@@ -38,7 +38,7 @@ class TestFunctions(unittest.TestCase):
         self.assertEqual(state, new_state)
 
     def test_wakeup_sleepy_conversation(self):
-        wakeup_sleepy_conversation(test1)
+        wakeup_sleepy_conversation("")
 
 
 

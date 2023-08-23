@@ -3,11 +3,10 @@ import re
 import requests
 import datetime
 
-from typing import Optional, Dict, List
+from typing import Dict, List
 from dotenv import load_dotenv
-from ConversationIdStorage import ConversationIdStorage
 
-from utils import get_auth_headers
+from utils import get_auth_headers, get_messages
 
 # load environment variables from .env file
 load_dotenv()
@@ -35,6 +34,17 @@ def wakeup_sleepy_conversation(conversation_id:str):
     change_conversation_state(conversation_id, "resolved")
 
 
+
+def is_last_message_from_operator(conversation_id:str):
+    
+    messages = get_messages(conversation_id)
+    
+    #get last message
+    last_message = messages[-1]
+
+    return last_message["from"] == "operator"
+
+
 def get_sleepy_conversations(page_number: int) -> List[Dict]:
     #get conversation where user has not answered our question for 7 days
     url = f"https://api.crisp.chat/v1/website/{CRISP_WEBSITE_ID}/conversations/{page_number}"
@@ -51,7 +61,7 @@ def get_sleepy_conversations(page_number: int) -> List[Dict]:
     conversations =  response.json()["data"]
     sleepy_conversations = []
     for conversation in conversations:
-            if visitor_has_unread_messages(conversation) and is_older_than_seven_days(conversation):
+            if is_older_than_seven_days(conversation) and is_last_message_from_operator(conversation["session_id"]):
                 print(f'sleepy conversation link : https://app.crisp.chat/website/{CRISP_WEBSITE_ID}/inbox/{conversation["session_id"]}')
                 sleepy_conversations.append(conversation)
 
@@ -59,6 +69,10 @@ def get_sleepy_conversations(page_number: int) -> List[Dict]:
     
 
 def visitor_has_unread_messages(conversation):
+    return conversation["unread"]["visitor"] > 0
+
+
+def last_message_is_from_us(conversation):
     return conversation["unread"]["visitor"] > 0
 
 def is_older_than_seven_days(conversation):

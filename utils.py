@@ -27,3 +27,7 @@ def get_messages(conversation_id: str) -> List[Dict]:
     response = requests.get(messages_url, headers=headers)
     response.raise_for_status()
     return response.json()["data"]
+
+
+def crisp_url(conversation_id):
+    return "https://app.crisp.chat/website/%s/inbox/%s" % (CRISP_WEBSITE_ID, conversation_id)

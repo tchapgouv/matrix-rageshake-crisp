@@ -24,8 +24,6 @@ def wakeup_sleepy_conversation(conversation_id:str):
             Je reviens vers vous suite à votre sollicitation auprès du support de Tchap.
             Vos difficultés sont-elles résolues à ce jour ?
 
-            Si un ticket d'anomalie vous a été communiqué, veuillez-vous référer au ticket pour connaître le status de l'anomalie. 
-
             Nous restons à votre disposition si besoin.
 
             Bien cordialement"""

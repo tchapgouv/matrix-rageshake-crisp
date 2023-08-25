@@ -10,10 +10,9 @@ def random_string(length):
     letters = string.ascii_lowercase
     return ''.join(random.choice(letters) for i in range(length))
 
+
 class TestFunctions(unittest.TestCase):
     
-
-
     def test_update_conversation(self):
         conversationId = "session_691ea0d5-0543-427b-85dd-95bc412ceb27"
         #update_conversation_meta(conversationId , "test1@test.com", ["test5"])

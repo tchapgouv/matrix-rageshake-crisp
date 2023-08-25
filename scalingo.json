@@ -32,6 +32,11 @@
       "description": "CRON schedule for the job job_process_invalid_rageshake in seconds",
       "value": "60",
       "required": true
+    },
+    "SCHEDULE_JOB_SLEEPY_CONVERSATION_IN_HOURS": {
+      "description": "CRON schedule for the job job_process_sleepy_conversations in hours",
+      "value": "24",
+      "required": true
     }
   },
   "formation": {

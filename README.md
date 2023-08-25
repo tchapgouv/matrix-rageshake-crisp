@@ -2,6 +2,9 @@
 
 This script searches for conversations on the Crisp API that have the RAGESHAKE_EMAIL as a participant. It replaces this email by the "email :" field found in the rageshake description. 
 
+It interacts with crisp by a Plugin published here : https://marketplace.crisp.chat/plugins/
+If dev tokens reach max quota (429 Client Error: Too Many Requests), they can be reset here : https://marketplace.crisp.chat/plugins/plugin/50c492e5-7175-45d0-a449-913aa8bc6cfd/tokens/
+
 ## Setup
 
 The following environment variables must be set before running the script:
@@ -12,6 +15,7 @@ The following environment variables must be set before running the script:
 - `RAGESHAKE_EMAIL`: The email address to search for in the conversations' metadata.
 - `DRY_RUN`: Set to `True` if you don't want any change to append.
 - `SCHEDULE_CRISP_INVALID_RAGESHAKE`: cron schedule for the job crips invalid rageshake (by default 60 seconds)
+- `SCHEDULE_JOB_SLEEPY_CONVERSATION_IN_HOURS`: cron schedule for the job job_process_sleepy_conversations (by default 24 hours)
 
 ## Usage
 

@@ -10,7 +10,7 @@ conversation_id = "session_691ea0d5-0543-427b-85dd-95bc412ceb27"
 
 class TestFunctions(unittest.TestCase):
     
-    #@unittest.skip("warning this sends real email to real people")
+    @unittest.skip("warning this sends real email to real people")
     def test_job_process_sleepy_conversation(self):
         job_process_sleepy_conversations(10)
     
@@ -22,11 +22,11 @@ class TestFunctions(unittest.TestCase):
         self.assertEqual(len(sleepy_conversations), max_conversations)
 
     @unittest.skip("")
-    def test_is_last_message_from_us(self):
+    def test_is_last_message_from_operator(self):
         #this conversation ends with a note from us
-        conversation_id = "session_127d6e28-ccfd-4e58-a77a-22a723bc9514"
+        conversation_id = ""
         messages = get_messages(conversation_id)
-        #print(f'messages : {messages}')
+        print(f'messages : {messages}')
         self.assertEqual(is_last_message_from_operator(conversation_id), False)
 
 

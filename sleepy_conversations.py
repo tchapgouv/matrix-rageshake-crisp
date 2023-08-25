@@ -43,6 +43,9 @@ def wakeup_sleepy_conversation(conversation_id:str):
             Bonjour,
 
             Je reviens vers vous suite à votre sollicitation auprès du support de Tchap.
+            
+            Les applications Android et iPhone sont régulièrement mises à jour.
+            
             Vos difficultés sont-elles résolues à ce jour ?
 
             Nous restons à votre disposition si besoin.
@@ -80,15 +83,18 @@ def get_sleepy_conversations(conversations_max:int) -> List[Dict]:
         time.sleep(1)
 
         if is_older_than_seven_days(conversation) and is_last_message_from_operator(conversation["session_id"]):
-            print(f'sleepy conversation link : {crisp_url(conversation["session_id"])}')
+            print(f'sleepy conversation : {crisp_url(conversation["session_id"])}')
             sleepy_conversations.append(conversation)
             if len(sleepy_conversations) >= conversations_max:
                 break 
+        else:
+            print(f'not-resolved-not-sleepy conversation : {crisp_url(conversation["session_id"])}')
+
     
     return sleepy_conversations
     
 
-#retrieve unresolved conversations. The first item is the newest updates conversation
+#retrieve unresolved conversations older than 7 days. The first item is the newest updated conversation
 def get_not_resolved_conversations() -> List[Dict]:
     not_resolved_conversations = []
     page_number = 0
@@ -120,6 +126,9 @@ def get_not_resolved_conversations() -> List[Dict]:
         #update loop controllers
         end_looping = len(conversations_to_append) == 0
         page_number += 1
+
+        #avoid spamming crisp, sleep a bit
+        time.sleep(1)
 
     return not_resolved_conversations
 

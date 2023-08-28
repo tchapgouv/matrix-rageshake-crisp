@@ -141,7 +141,8 @@ def extract_segment(message_content: str) -> str:
 
 def process_conversation(conversation_id:str, verbose=False) -> bool:
     try:
-        print(f"# Extract data from {conversation_id}")
+        if verbose: 
+            print(f"# Extract data from {conversation_id}")
         messages = get_messages(conversation_id)
         #first_message = messages[0]["content"]
         message_contents = list(map(lambda message: str(message["content"]), messages))  # Extract the "content" field from each message
@@ -152,7 +153,8 @@ def process_conversation(conversation_id:str, verbose=False) -> bool:
 
         email = extract_email_from_message(combined_messages)
         userId = extract_user_id_from_message(combined_messages)
-        print(f"found in {conversation_id}: userId: {userId}, email {email}")
+        if verbose: 
+            print(f"found in {conversation_id}: userId: {userId}, email {email}")
 
         if not email or email == 'undefined':
             email = extract_email_from_user_id(userId)
@@ -199,7 +201,7 @@ def job_process_invalid_rageshake(processConversationIds:ConversationIdStorage, 
 
         
         conversations = get_invalid_conversations(current_page_number) #fails script if can not get invalid conversations
-        print(f"In page {current_page_number}, # conversations with invalid rageshake : {len(conversations)}")
+        #print(f"In page {current_page_number}, # conversations with invalid rageshake : {len(conversations)}")
 
         if not conversations:
             break
@@ -207,16 +209,16 @@ def job_process_invalid_rageshake(processConversationIds:ConversationIdStorage, 
         for conversation in conversations:
             conversation_id = conversation["session_id"]
             
-            #do not process conversation already processed
-            if processConversationIds.has(conversation_id):
-                print(f"Conversation already processed : {conversation_id}")
-            else:    
+            if not processConversationIds.has(conversation_id):
                 if process_conversation(conversation_id): 
                     total_updated_rageshake+=1
 
                 processConversationIds.add(conversation_id)
+            #else:    
+                #do not process conversation already processed
+                #print(f"Conversation already processed : {conversation_id}")
         
         current_page_number += 1
 
-    print("**** Finish Extraction ****")
-    print(f"Invalid rageshake updated {total_updated_rageshake}")
+    #print("**** Finish Extraction ****")
+    #print(f"Invalid rageshake updated {total_updated_rageshake}")

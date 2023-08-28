@@ -15,6 +15,8 @@ CRISP_WEBSITE_ID = os.environ["CRISP_WEBSITE_ID"]
 
 DRY_RUN = os.environ.get("DRY_RUN", "true").lower() == "true"
 
+VERBOSE = True
+
 
 def job_process_sleepy_conversations(conversations_max:int = 0):
   
@@ -28,6 +30,8 @@ def job_process_sleepy_conversations(conversations_max:int = 0):
     
     Returns: None
     """
+
+    print(f'Starting Job of processing sleepy conversation')
     sleepy_conversations = get_sleepy_conversations(conversations_max if conversations_max > 0 else 999999)
 
     for sleepy_conversation in sleepy_conversations:
@@ -114,7 +118,8 @@ def get_not_resolved_conversations() -> List[Dict]:
         params = {
             "filter_not_resolved": 1,
             "order_date_updated": 1,
-            "filter_date_end" : seven_days_ago.isoformat()
+            "filter_date_end" : seven_days_ago.isoformat(),
+            "filter_date_start" : hundred_days_ago.isoformat()
         }
 
         response = requests.get(url, headers=headers, params=params)
@@ -127,6 +132,7 @@ def get_not_resolved_conversations() -> List[Dict]:
         end_looping = len(conversations_to_append) == 0
         page_number += 1
 
+        print(f'not resolved conversations : {len(not_resolved_conversations)}')
         #avoid spamming crisp, sleep a bit
         time.sleep(1)
 

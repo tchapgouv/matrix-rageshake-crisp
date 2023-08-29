@@ -40,7 +40,7 @@ def job_process_sleepy_conversations(conversations_max:int = 0):
 
 
 def wakeup_sleepy_conversation(conversation_id:str):
-    print(f'Processing sleepy conversation : {crisp_url(conversation_id)}')
+    print(f'wakeup sleepy conversation : {crisp_url(conversation_id)}')
     message = """
             *Ceci est un message automatique*
 

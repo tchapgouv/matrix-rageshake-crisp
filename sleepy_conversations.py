@@ -161,6 +161,7 @@ def is_older_than_seven_days(conversation):
     # Check if the difference is greater than 7 days
     return difference.days > 7
 
+# Need token scope website:conversation:state write
 def change_conversation_state(conversation_id, state):
     update_payload = {
         "state" : state
@@ -172,7 +173,7 @@ def change_conversation_state(conversation_id, state):
     response = requests.patch(update_url, headers=headers, json=update_payload)
     response.raise_for_status()
 
-
+# Need token scope website:conversation:state read
 def get_conversation_state(conversation_id):
     get_url = f"https://api.crisp.chat/v1/website/{CRISP_WEBSITE_ID}/conversation/{conversation_id}/state"
     headers = get_auth_headers()
@@ -181,7 +182,7 @@ def get_conversation_state(conversation_id):
     return response.json()["data"]["state"]
     
 
-
+# Need token scope website:conversation:messages write
 def send_message(conversation_id, content):
     post_url = f"https://api.crisp.chat/v1/website/{CRISP_WEBSITE_ID}/conversation/{conversation_id}/message"
 

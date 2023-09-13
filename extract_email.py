@@ -67,7 +67,7 @@ def get_invalid_conversations(page_number: int) -> List[Dict]:
 
 
 
-
+# Need token scope website:conversation:sessions read
 def get_conversation_meta(conversation_id: str) -> dict:
     url = f"https://api.crisp.chat/v1/website/{CRISP_WEBSITE_ID}/conversation/{conversation_id}/meta"
     headers = get_auth_headers()
@@ -75,6 +75,7 @@ def get_conversation_meta(conversation_id: str) -> dict:
     response.raise_for_status()  # s'assurer que la requête a été réussie
     return response.json()  # renvoie le contenu de la réponse en tant que dictionnaire JSON
 
+# Need token scope website:conversation:sessions write
 def update_conversation_meta(conversation_id: str, email: str = None, segments: list[str] = None) -> None:
     
     #get existing segments, return empty array if no segment

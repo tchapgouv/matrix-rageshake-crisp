@@ -47,14 +47,16 @@ def wakeup_sleepy_conversation(conversation_id:str):
             Bonjour,
 
             Je reviens vers vous suite à votre sollicitation auprès du support de Tchap.
-            
-            Les applications Android et iPhone sont régulièrement mises à jour.
-            
+                        
             Vos difficultés sont-elles résolues à ce jour ?
 
             Nous restons à votre disposition si besoin.
 
-            Bien cordialement"""
+            Bien cordialement
+
+            NB : Nos applications Android et iPhone évoluent régulièrement, pensez à les mettre à jour.
+
+            """
     
     send_message(conversation_id, message)
     change_conversation_state(conversation_id, "resolved")

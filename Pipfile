@@ -5,5 +5,6 @@ python_version = "3.11.2"
 requests= "2.28.2"
 python-dotenv = "*"
 schedule = "*"
+boto3 = "*"
 
 [dev-packages]

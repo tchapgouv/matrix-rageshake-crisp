@@ -13,17 +13,6 @@ def random_string(length):
 
 class TestFunctions(unittest.TestCase):
     
-    def test_update_conversation(self):
-        conversationId = ""
-        #update_conversation_meta(conversationId , "test1@test.com", ["test5"])
-
-
-    def test_conversation(self):
-        conversationId = ""
-        conversation = process_conversation(conversationId , True)
-        print(f'conversion : {conversation}')
-
-
     def test_inscription_segment(self):
         message_content = random_string(90) + " inscription" + random_string(90)
         self.assertEqual(extract_segment(message_content), 'inscription')

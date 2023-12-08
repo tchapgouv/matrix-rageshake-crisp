@@ -10,7 +10,7 @@ conversation_id = "session_691ea0d5-0543-427b-85dd-95bc412ceb27"
 
 class TestFunctions(unittest.TestCase):
     
-    @unittest.skip("warning this sends real email to real people")
+    #@unittest.skip("warning this sends real email to real people")
     def test_job_process_sleepy_conversation(self):
         job_process_sleepy_conversations(10)
     
@@ -55,7 +55,7 @@ class TestFunctions(unittest.TestCase):
 
     @unittest.skip("")
     def test_wakeup_sleepy_conversation(self):
-        wakeup_sleepy_conversation("")
+        wakeup_sleepy_conversation("session_2e6e0ca1-58cf-4937-b3e5-201cf44a652c")
 
 
 

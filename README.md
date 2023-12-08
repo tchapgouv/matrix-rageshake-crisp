@@ -17,6 +17,9 @@ The following environment variables must be set before running the script:
 - `SCHEDULE_CRISP_INVALID_RAGESHAKE`: cron schedule for the job crips invalid rageshake (by default 60 seconds)
 - `SCHEDULE_JOB_SLEEPY_CONVERSATION_IN_HOURS`: cron schedule for the job job_process_sleepy_conversations (by default 24 hours)
 
+Crisp plugin is defined here : https://marketplace.crisp.chat/plugins/plugin/50c492e5-7175-45d0-a449-913aa8bc6cfd/tokens/
+
+
 ## Usage
 
 To run the script, simply run the following command:

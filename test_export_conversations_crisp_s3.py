@@ -1,5 +1,5 @@
 import unittest
-from sync_conversations_metabase import extract_fields
+from export_conversations_crisp_s3 import extract_fields
 
 class TestExtractFields(unittest.TestCase):
    

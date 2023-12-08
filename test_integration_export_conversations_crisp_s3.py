@@ -1,7 +1,7 @@
 import os
 import unittest
 from unittest.mock import patch
-import sync_conversations_metabase  # Remplacez par le nom de votre module
+import export_conversations_crisp_s3  # Remplacez par le nom de votre module
 from dotenv import load_dotenv
 class TestFileUploadToS3(unittest.TestCase):
     
@@ -19,7 +19,7 @@ class TestFileUploadToS3(unittest.TestCase):
         ]
 
         # Appelez votre fonction d'envoi de fichier
-        sync_conversations_metabase.export_data_to_s3(data)  # Remplacez par le nom de votre fonction
+        export_conversations_crisp_s3.export_data_to_s3(data)  # Remplacez par le nom de votre fonction
 
 
 if __name__ == '__main__':

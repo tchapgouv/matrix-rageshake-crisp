@@ -101,7 +101,6 @@ def get_sleepy_conversations(conversations_max:int) -> List[Dict]:
     
 
 #retrieve unresolved conversations older than 7 days. The first item is the newest updated conversation
-#todo : refactor to use utils.get_conversations instead
 def get_not_resolved_conversations() -> List[Dict]:
     not_resolved_conversations = []
     page_number = 0

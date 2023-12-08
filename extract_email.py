@@ -141,6 +141,7 @@ def extract_segment(message_content: str) -> str:
 
     return SEGMENT_AUTRE  # Retourne aucun si aucun des termes n'est trouvé
 
+#process conversation to update email in conversation
 def process_conversation(conversation_id:str, verbose=False) -> bool:
     try:
         if verbose: 

@@ -37,6 +37,11 @@
       "description": "CRON schedule for the job job_process_sleepy_conversations in hours",
       "value": "24",
       "required": true
+    },
+    "SCHEDULE_JOB_EXPORT_SEGMENTS_IN_DAYS": {
+      "description": "CRON schedule for the job job_export_crips_conversation_segments_s3 in days",
+      "value": "1",
+      "required": true
     }
   },
   "formation": {

@@ -52,7 +52,7 @@ def extract_fields(data_dict):
 def export_data_to_s3(data):
     # Obtenir la date actuelle pour nommer le fichier
     current_date = datetime.datetime.now().strftime("%Y-%m-%d")
-    file_name = f"conversations_{current_date}.csv"
+    file_name = f"conversations_crisp_{current_date}.csv"
 
     # Création d'un fichier temporaire
     with tempfile.NamedTemporaryFile(mode='w', delete=False, suffix='.csv', newline='', encoding='utf-8') as temp_file:

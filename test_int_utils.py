@@ -5,13 +5,13 @@ from datetime import datetime, timedelta
 
 class TestFunctions(unittest.TestCase):
     
-    @unittest.skip("")
+    @unittest.skip("integration tests are skip by default")
     def test_get_messages(self):
         print(f'coucou')
         messages = get_messages("session_127d6e28-ccfd-4e58-a77a-22a723bc9514")
         print(f'messages : {messages}')
 
-    @unittest.skip("")
+    @unittest.skip("integration tests are skip by default")
     def test_get_sleepy_conversations(self):
 
         data = get_conversations({
@@ -23,6 +23,7 @@ class TestFunctions(unittest.TestCase):
 
         print(data)
 
+    @unittest.skip("integration tests are skip by default")
     def test_get_resolved_conversations_from_last_week(self):
 
         data = get_conversations({

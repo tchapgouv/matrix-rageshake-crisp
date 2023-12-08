@@ -7,7 +7,7 @@ import job_export_crips_conversation_segments_s3  # Remplacez par le nom de votr
 from dotenv import load_dotenv
 class TestFileUploadToS3(unittest.TestCase):
     
-    @unittest.skip("")
+    @unittest.skip("integration tests are skip by default")
     def test_upload_to_s3(self):
 
         # load environment variables from .env file
@@ -24,7 +24,7 @@ class TestFileUploadToS3(unittest.TestCase):
         # Appelez votre fonction d'envoi de fichier
         job_export_crips_conversation_segments_s3.export_crisp_conversations_segments_to_s3(data)  # Remplacez par le nom de votre fonction
 
-    #@unittest.skip("")
+    @unittest.skip("integration tests are skip by default")
     def test_job_sync_conversations_metabase(self):
         job_export_crips_conversation_segments_s3.job_export_crips_conversation_segments_s3(200)
 

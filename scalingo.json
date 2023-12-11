@@ -42,6 +42,21 @@
       "description": "CRON schedule for the job job_export_crips_conversation_segments_s3 in days",
       "value": "1",
       "required": true
+    },
+    "S3_BUCKET_NAME": {
+      "description": "S3 bucket name where to export the crisp segments",
+      "value": "tchap-bucket",
+      "required": true
+    },
+    "S3_ACCESS_KEY_ID": {
+      "description": "S3 ACCESS_KEY_ID name where to export the crisp segments",
+      "value": "",
+      "required": true
+    },
+    "S3_SECRET_ACCESS_KEY": {
+      "description": "S3 SECRET_ACCESS_KEY name where to export the crisp segments",,
+      "value": "",
+      "required": true
     }
   },
   "formation": {

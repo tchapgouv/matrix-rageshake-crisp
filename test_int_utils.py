@@ -1,6 +1,6 @@
 import unittest
 
-from utils import get_conversations, get_messages
+from src.utils import get_conversations, get_messages
 from datetime import datetime, timedelta
 
 class TestFunctions(unittest.TestCase):

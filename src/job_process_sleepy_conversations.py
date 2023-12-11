@@ -6,7 +6,7 @@ import time
 from typing import Dict, List
 from dotenv import load_dotenv
 
-from utils import get_auth_headers, get_messages, crisp_url
+from src.utils import get_auth_headers, get_messages, crisp_url
 
 # load environment variables from .env file
 load_dotenv()

@@ -4,9 +4,9 @@ import requests
 from base64 import b64encode
 from typing import Optional, Dict, List
 from dotenv import load_dotenv
-from ConversationIdStorage import ConversationIdStorage
+from src.ConversationIdStorage import ConversationIdStorage
 
-from utils import get_auth_headers, get_messages
+from src.utils import get_auth_headers, get_messages
 
 """
 This script is meant to be run every minute or so by a cron job

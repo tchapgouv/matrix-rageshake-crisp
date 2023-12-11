@@ -2,10 +2,10 @@ import schedule
 import time
 import os
 
-from extract_email import job_process_invalid_rageshake
-from sleepy_conversations import job_process_sleepy_conversations
-from job_export_crips_conversation_segments_s3 import job_export_crips_conversation_segments_s3
-from ConversationIdStorage import ConversationIdStorage
+from src.job_process_invalid_rageshake import job_process_invalid_rageshake
+from src.job_process_sleepy_conversations import job_process_sleepy_conversations
+from src.job_export_crips_conversation_segments_s3 import job_export_crips_conversation_segments_s3
+from src.ConversationIdStorage import ConversationIdStorage
 
 #this script is started by the container
 #https://doc.scalingo.com/platform/app/task-scheduling/custom-clock-processes

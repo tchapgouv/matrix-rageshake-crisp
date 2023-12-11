@@ -1,10 +1,8 @@
-from contextlib import AbstractContextManager
 import os
-from typing import Any
 import unittest
-from unittest.mock import patch
-import job_export_crips_conversation_segments_s3  # Remplacez par le nom de votre module
 from dotenv import load_dotenv
+from src.job_export_crips_conversation_segments_s3 import job_export_crips_conversation_segments_s3, export_crisp_conversations_segments_to_s3
+
 class TestFileUploadToS3(unittest.TestCase):
     
     @unittest.skip("integration tests are skip by default")
@@ -24,9 +22,9 @@ class TestFileUploadToS3(unittest.TestCase):
         # Appelez votre fonction d'envoi de fichier
         job_export_crips_conversation_segments_s3.export_crisp_conversations_segments_to_s3(data)  # Remplacez par le nom de votre fonction
 
-    @unittest.skip("integration tests are skip by default")
+    #@unittest.skip("integration tests are skip by default")
     def test_job_sync_conversations_metabase(self):
-        job_export_crips_conversation_segments_s3.job_export_crips_conversation_segments_s3(200)
+        job_export_crips_conversation_segments_s3(10)
 
 
 

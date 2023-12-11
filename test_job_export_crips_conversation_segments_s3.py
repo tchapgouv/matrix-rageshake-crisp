@@ -1,5 +1,5 @@
 import unittest
-from job_export_crips_conversation_segments_s3 import extract_fields
+from src.job_export_crips_conversation_segments_s3 import extract_fields
 
 class TestExtractFields(unittest.TestCase):
    

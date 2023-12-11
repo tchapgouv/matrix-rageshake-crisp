@@ -1,17 +1,9 @@
 import csv
-import requests
-import json
-from typing import  Dict, List
 import os
 import datetime
 
 import os
-import psycopg2
-from psycopg2 import sql
-from typing import  Dict, List
-from dotenv import load_dotenv
-from utils import get_auth_headers, get_conversations
-from botocore.client import Config
+from src.utils import get_conversations
 import boto3
 import tempfile
 from datetime import datetime, timedelta

@@ -2,7 +2,7 @@ import unittest
 import random
 import string
 
-from extract_email import extract_segment,update_conversation_meta, extract_email_from_user_id, extract_email_from_message, extract_user_id_from_message, process_conversation,get_invalid_conversations,get_messages
+from src.job_process_invalid_rageshake import extract_segment,update_conversation_meta, extract_email_from_user_id, extract_email_from_message, extract_user_id_from_message, process_conversation,get_invalid_conversations,get_messages
 
 
 #utils functions
@@ -13,19 +13,6 @@ def random_string(length):
 
 class TestFunctions(unittest.TestCase):
     
-    def test_update_conversation(self):
-        conversationId = "session_691ea0d5-0543-427b-85dd-95bc412ceb27"
-        #update_conversation_meta(conversationId , "test1@test.com", ["test5"])
-
-
-    def test_conversation(self):
-        conversationId = "session_ef67dfdd-4f0f-480f-abe2-81f989bfbed7"
-        #conversationId = "session_c28bb18b-45c5-420c-ab4f-3dd0a6da713f" #conversion found by email
-        #session_56c61974-7189-42ce-be8c-d697457463be/
-        conversation = process_conversation(conversationId , True)
-        print(f'conversion : {conversation}')
-
-
     def test_inscription_segment(self):
         message_content = random_string(90) + " inscription" + random_string(90)
         self.assertEqual(extract_segment(message_content), 'inscription')

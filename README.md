@@ -16,6 +16,15 @@ The following environment variables must be set before running the script:
 - `DRY_RUN`: Set to `True` if you don't want any change to append.
 - `SCHEDULE_CRISP_INVALID_RAGESHAKE`: cron schedule for the job crips invalid rageshake (by default 60 seconds)
 - `SCHEDULE_JOB_SLEEPY_CONVERSATION_IN_HOURS`: cron schedule for the job job_process_sleepy_conversations (by default 24 hours)
+- `SCHEDULE_JOB_EXPORT_SEGMENTS_IN_DAYS`: CRON schedule for the job job_export_crips_conversation_segments_s3 in days  (by default 1 day)
+
+For the statistics export to the S3 OVH bucket
+- `S3_ACCESS_KEY_ID` : access key to the export bucket
+- `S3_SECRET_ACCESS_KEY` : secret access key to the export bucket
+- `S3_BUCKET_NAME` : bucket name of the export bucket
+
+Crisp plugin is defined here : https://marketplace.crisp.chat/plugins/plugin/50c492e5-7175-45d0-a449-913aa8bc6cfd/tokens/
+
 
 ## Usage
 

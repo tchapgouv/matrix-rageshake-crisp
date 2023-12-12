@@ -6,7 +6,7 @@ import time
 from typing import Dict, List
 from dotenv import load_dotenv
 
-from utils import get_auth_headers, get_messages, crisp_url
+from src.utils import get_auth_headers, get_messages, crisp_url
 
 # load environment variables from .env file
 load_dotenv()
@@ -101,6 +101,7 @@ def get_sleepy_conversations(conversations_max:int) -> List[Dict]:
     
 
 #retrieve unresolved conversations older than 7 days. The first item is the newest updated conversation
+#todo : refactor to use utils.get_conversations instead
 def get_not_resolved_conversations() -> List[Dict]:
     not_resolved_conversations = []
     page_number = 0

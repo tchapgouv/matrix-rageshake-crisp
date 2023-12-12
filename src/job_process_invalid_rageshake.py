@@ -4,9 +4,9 @@ import requests
 from base64 import b64encode
 from typing import Optional, Dict, List
 from dotenv import load_dotenv
-from ConversationIdStorage import ConversationIdStorage
+from src.ConversationIdStorage import ConversationIdStorage
 
-from utils import get_auth_headers, get_messages
+from src.utils import get_auth_headers, get_messages
 
 """
 This script is meant to be run every minute or so by a cron job
@@ -141,6 +141,7 @@ def extract_segment(message_content: str) -> str:
 
     return SEGMENT_AUTRE  # Retourne aucun si aucun des termes n'est trouvé
 
+#process conversation to update email in conversation
 def process_conversation(conversation_id:str, verbose=False) -> bool:
     try:
         if verbose: 

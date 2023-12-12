@@ -103,6 +103,7 @@ def extract_email_from_user_id(user_id):
         r"diplomatie\.gouv\.fr": lambda m: f"{m.group(1)}@diplomatie.gouv.fr",
         r"intradef\.gouv\.fr": lambda m: f"{m.group(1)}@intradef.gouv.fr",
         r"ap-hm\.fr": lambda m: f"{m.group(1)}@ap-hm.fr",
+        r"gendarmerie\.defense\.gouv\.fr": lambda m: f"{m.group(1)}@gendarmerie.defense.gouv.fr",
         r"gendarmerie\.interieur\.gouv\.fr": lambda m: f"{m.group(1)}@gendarmerie.interieur.gouv.fr",
         r"interieur\.gouv\.fr": lambda m: f"{m.group(1)}@interieur.gouv.fr",
         r"ac-[-\w\.]+\.fr": lambda m: f"{m.group(1)}@{m.group(2)}",  # Generic rule for domains starting with "ac-"

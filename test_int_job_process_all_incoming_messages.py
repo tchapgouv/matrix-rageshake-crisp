@@ -1,6 +1,6 @@
 import unittest
 
-from src.job_process_all_incoming_messages import  job_process_all_recent_conversations,process_conversation_only_segments
+from src.job_process_all_incoming_messages import  job_process_all_incoming_messages,process_conversation_only_segments
 from src.ConversationIdStorage import ConversationIdStorage
 
 class TestFunctions(unittest.TestCase):
@@ -9,7 +9,7 @@ class TestFunctions(unittest.TestCase):
     #@unittest.skip("integration tests are skip by default")
     def test_job(self):
         processConversationIds = ConversationIdStorage()
-        job_process_all_recent_conversations(10, processConversationIds)
+        job_process_all_incoming_messages(10, processConversationIds)
 
     @unittest.skip("integration tests are skip by default")
     def test_conversation(self):

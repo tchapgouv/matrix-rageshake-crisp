@@ -25,7 +25,7 @@ DRY_RUN = os.environ.get("DRY_RUN", "true").lower() == "true"
 
 
 
-def job_process_all_recent_conversations(from_minutes:int, processConversationIds:ConversationIdStorage):
+def job_process_all_incoming_messages(from_minutes:int, processConversationIds:ConversationIdStorage):
     """
     Process not answered conversations by updating the email in it and setting segments
     An additional segment is set to trigger the send of the email

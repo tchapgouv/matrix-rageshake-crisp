@@ -1,7 +1,4 @@
 import unittest
-import random
-import string
-import datetime
 
 from src.job_process_sleepy_conversations import get_sleepy_conversations,change_conversation_state,get_conversation_state, send_message, wakeup_sleepy_conversation, is_last_message_from_operator, job_process_sleepy_conversations
 from src.utils import get_messages

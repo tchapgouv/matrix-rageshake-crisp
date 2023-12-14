@@ -1,12 +1,11 @@
 import os
 import re
 import requests
-from base64 import b64encode
 from typing import Optional, Dict, List
 from dotenv import load_dotenv
 from src.ConversationIdStorage import ConversationIdStorage
 
-from src.utils import get_auth_headers, get_messages
+from src.utils import get_auth_headers, get_messages, update_conversation_meta
 
 """
 This script is meant to be run every minute or so by a cron job
@@ -21,7 +20,6 @@ load_dotenv()
 
 CRISP_WEBSITE_ID = os.environ["CRISP_WEBSITE_ID"]
 DEFAULT_EMAIL = os.environ.get("DEFAULT_EMAIL", "rageshake@beta.gouv.fr")
-DEFAULT_EMAIL = os.environ.get("RAGESHAKE_NAME", "Tchap Rageshake")
 DRY_RUN = os.environ.get("DRY_RUN", "true").lower() == "true"
 
 EMAIL_REGEX = r"email: ?\s*\"([^\"]+)\""
@@ -49,9 +47,8 @@ def extract_user_id_from_message(message: str) -> Optional[str]:
 
 
 
-
+# retrieve conversations that have a DEFAULT_EMAIL (typically rageshake email)
 def get_invalid_conversations(page_number: int) -> List[Dict]:
-    #url = f"https://api.crisp.chat/v1/website/{CRISP_WEBSITE_ID}/conversations/"
     url = f"https://api.crisp.chat/v1/website/{CRISP_WEBSITE_ID}/conversations/{page_number}"
     headers = get_auth_headers()
     params = {
@@ -65,34 +62,6 @@ def get_invalid_conversations(page_number: int) -> List[Dict]:
 
     return response.json()["data"]
 
-
-
-# Need token scope website:conversation:sessions read
-def get_conversation_meta(conversation_id: str) -> dict:
-    url = f"https://api.crisp.chat/v1/website/{CRISP_WEBSITE_ID}/conversation/{conversation_id}/meta"
-    headers = get_auth_headers()
-    response = requests.get(url, headers=headers)
-    response.raise_for_status()  # s'assurer que la requête a été réussie
-    return response.json()  # renvoie le contenu de la réponse en tant que dictionnaire JSON
-
-# Need token scope website:conversation:sessions write
-def update_conversation_meta(conversation_id: str, email: str = None, segments: list[str] = None) -> None:
-    
-    #get existing segments, return empty array if no segment
-    existing_segments = list(get_conversation_meta(conversation_id)["data"]["segments"])
-    
-    print(f"update {email} and segment {segments} in {conversation_id} with existing segments {existing_segments}")
-    update_url = f"https://api.crisp.chat/v1/website/{CRISP_WEBSITE_ID}/conversation/{conversation_id}/meta"
-    update_payload = {}
-    if email: # si email n'est pas None ou vide
-        update_payload["email"] = email
-
-    if segments: # si segments n'est pas None ou vide
-        update_payload["segments"] = list(set(existing_segments + segments)) # l'ordre n'est pas conservé, il peut changer
-    
-    headers = get_auth_headers()
-    response = requests.patch(update_url, headers=headers, json=update_payload)
-    response.raise_for_status()
 
 #written with ai assist
 #this function uses custom regex to extract email
@@ -141,7 +110,11 @@ def extract_segment(message_content: str) -> str:
 
     return SEGMENT_AUTRE  # Retourne aucun si aucun des termes n'est trouvé
 
-#process conversation to update email in conversation
+# process a conversation 
+# if email is invalid (rageshake) it is reset
+# segments are set in conversation
+# An additional segment SEGMENT_SEND_RESPONSE is set to trigger the send of the email
+# this method does 2 things, it should be split in two methods
 def process_conversation(conversation_id:str, verbose=False) -> bool:
     try:
         if verbose: 
@@ -168,15 +141,13 @@ def process_conversation(conversation_id:str, verbose=False) -> bool:
                 #add segment SEGMENT_SEND_RESPONSE to activate the bot workflow send response
                 #this workflow is : "on Segment update - envoie message"
                 segments =[segment, SEGMENT_SEND_RESPONSE]
-                update_conversation_meta(conversation_id, email, segments)
+                update_conversation_meta(conversation_id=conversation_id, email=email, segments=segments)
                 return True
         return False
     except Exception as e:
         #do not fail script
         print(f"error in {conversation_id} : {e}")
         return False
-
-
 def job_process_invalid_rageshake(processConversationIds:ConversationIdStorage, pageMax:int=1):
     
     """
@@ -222,6 +193,3 @@ def job_process_invalid_rageshake(processConversationIds:ConversationIdStorage, 
                 #print(f"Conversation already processed : {conversation_id}")
         
         current_page_number += 1
-
-    #print("**** Finish Extraction ****")
-    #print(f"Invalid rageshake updated {total_updated_rageshake}")

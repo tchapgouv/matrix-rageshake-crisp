@@ -1,12 +1,11 @@
 import os
-import re
 import requests
 from datetime import datetime, timedelta
 import time
 from typing import Dict, List
 from dotenv import load_dotenv
 
-from src.utils import get_auth_headers, get_messages, crisp_url
+from src.utils import get_auth_headers, crisp_url, change_conversation_state, is_last_message_from_operator
 
 # load environment variables from .env file
 load_dotenv()
@@ -63,17 +62,6 @@ def wakeup_sleepy_conversation(conversation_id:str):
 
 
 
-def is_last_message_from_operator(conversation_id:str):
-    
-    messages = get_messages(conversation_id)
-    
-    #remove notes and others not text messages
-    only_text_messages = list(filter(lambda x: x.get('type', '')=='text', messages))
-
-    #get last message
-    last_message = only_text_messages[-1]
-
-    return last_message["from"] == "operator"
 
 # get the oldest sleepy conversations
 def get_sleepy_conversations(conversations_max:int) -> List[Dict]:
@@ -141,15 +129,6 @@ def get_not_resolved_conversations() -> List[Dict]:
 
     return not_resolved_conversations
 
-
-
-def visitor_has_unread_messages(conversation):
-    return conversation["unread"]["visitor"] > 0
-
-
-def last_message_is_from_us(conversation):
-    return conversation["unread"]["visitor"] > 0
-
 def is_older_than_seven_days(conversation):
     timestamp = conversation["updated_at"]/1000
 
@@ -164,25 +143,7 @@ def is_older_than_seven_days(conversation):
     # Check if the difference is greater than 7 days
     return difference.days > 7
 
-# Need token scope website:conversation:state write
-def change_conversation_state(conversation_id, state):
-    update_payload = {
-        "state" : state
-    }
 
-    #state = pending,unresolved, resolved    
-    update_url = f"https://api.crisp.chat/v1/website/{CRISP_WEBSITE_ID}/conversation/{conversation_id}/state"
-    headers = get_auth_headers()
-    response = requests.patch(update_url, headers=headers, json=update_payload)
-    response.raise_for_status()
-
-# Need token scope website:conversation:state read
-def get_conversation_state(conversation_id):
-    get_url = f"https://api.crisp.chat/v1/website/{CRISP_WEBSITE_ID}/conversation/{conversation_id}/state"
-    headers = get_auth_headers()
-    response = requests.get(get_url, headers=headers)
-    response.raise_for_status()
-    return response.json()["data"]["state"]
     
 
 # Need token scope website:conversation:messages write

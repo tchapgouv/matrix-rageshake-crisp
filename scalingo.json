@@ -62,6 +62,11 @@
       "description": "CRON schedule for the job job_process_all_recent_conversations in seconds",
       "value": 120,
       "required": true
+    },
+    "LOGLEVEL": {
+      "description": "Set LogLevel (WARNING, INFO, DEBUG..), default to DEBUG",
+      "value": "DEBUG",
+      "required": false
     }
   },
   "formation": {

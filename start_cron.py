@@ -1,12 +1,13 @@
 import schedule
 import time
 import os
+import logging
 
 from src.job_process_invalid_rageshake import job_process_invalid_rageshake
 from src.job_process_sleepy_conversations import job_process_sleepy_conversations
 from src.job_export_crips_conversation_segments_s3 import job_export_crips_conversation_segments_s3
 from src.job_process_all_incoming_messages import job_process_all_incoming_messages
-
+from src.utils import setLogLevel
 from src.ConversationIdStorage import ConversationIdStorage
 
 #this script is started by the container
@@ -15,7 +16,11 @@ from src.ConversationIdStorage import ConversationIdStorage
 #stores processed conversations id
 processConversationIds = ConversationIdStorage()
 
+
+
 def start_cron():
+
+    setLogLevel()
     cron_shedule:str = os.environ["SCHEDULE_CRISP_INVALID_RAGESHAKE"]
     cron_process_all_incoming_messages:str = os.environ["SCHEDULE_PROCESS_ALL_MESSAGES_IN_SECONDS"]
     cron_sleepy_conversation:str = os.environ["SCHEDULE_JOB_SLEEPY_CONVERSATION_IN_HOURS"]

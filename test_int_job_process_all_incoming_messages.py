@@ -2,9 +2,11 @@ import unittest
 
 from src.job_process_all_incoming_messages import  job_process_all_incoming_messages,process_conversation_only_segments
 from src.ConversationIdStorage import ConversationIdStorage
+from src.utils import setLogLevel
 
 class TestFunctions(unittest.TestCase):
     
+    setLogLevel("INFO")
 
     #@unittest.skip("integration tests are skip by default")
     def test_job(self):

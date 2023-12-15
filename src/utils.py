@@ -4,7 +4,7 @@ from dotenv import load_dotenv
 from typing import Optional, Dict, List
 import requests
 import time
-
+import logging
 
 # load environment variables from .env file
 load_dotenv()
@@ -13,6 +13,9 @@ CRISP_IDENTIFIER = os.environ["CRISP_IDENTIFIER"]
 CRISP_KEY = os.environ["CRISP_KEY"]
 CRISP_WEBSITE_ID = os.environ["CRISP_WEBSITE_ID"]
 
+def setLogLevel(logLevel='DEBUG'): 
+    LOGLEVEL = os.environ.get('LOGLEVEL', logLevel).upper()
+    logging.basicConfig(level=LOGLEVEL)
 
 def get_auth_headers():
     auth_string = f"{CRISP_IDENTIFIER}:{CRISP_KEY}"
@@ -109,7 +112,7 @@ def get_conversations(params) -> List[Dict]:
         end_looping = len(conversations_to_append) == 0
         page_number += 1
 
-        print(f'matching conversations : {len(matching_conversations)}')
+        logging.debug(f'matching conversations : {len(matching_conversations)}')
         #avoid spamming crisp, sleep a bit
         time.sleep(1)
 

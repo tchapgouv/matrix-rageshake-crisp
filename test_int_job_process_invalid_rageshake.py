@@ -2,7 +2,7 @@ import unittest
 import random
 import string
 
-from src.job_process_invalid_rageshake import  process_conversation
+from src.job_process_invalid_rageshake import  process_conversation_from_rageshake
 
 
 #utils functions
@@ -21,7 +21,7 @@ class TestFunctions(unittest.TestCase):
     @unittest.skip("integration tests are skip by default")
     def test_conversation(self):
         conversationId = "" 
-        conversation = process_conversation(conversation_id=conversationId, verbose=True)
+        conversation = process_conversation_from_rageshake(conversation_id=conversationId, verbose=True)
         print(f'conversion : {conversation}')
 
 if __name__ == "__main__":

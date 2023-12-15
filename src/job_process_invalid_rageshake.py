@@ -88,24 +88,25 @@ def extract_email_from_user_id(user_id):
 
     return None
 
-def extract_segment(message_content: str) -> str:
+def extract_segment(message_content: str, suffix=None) -> str:
     # Liste des termes associés au segment 'inscription'
     inscription_terms = ['inscript', 'inscrire', 'compte']
+    suffix = ("-"+suffix if suffix is not None else "")
     for term in inscription_terms:
         if term in message_content.lower():
-            return SEGMENT_INCRISPTION
+            return SEGMENT_INCRISPTION+suffix
     
     # Liste des termes associés au segment 'chiffrement'
     chiffrement_terms = ['clé', 'chiffr', 'clef', 'cléf', 'crypte', 'crypté','illisible', 'vérouill', 'verrouill']
     for term in chiffrement_terms:
         if term in message_content.lower():
-            return SEGMENT_CHIFFREMENT
+            return SEGMENT_CHIFFREMENT+suffix
     
     # Liste des termes associés au segment 'mot-de-passe'
     chiffrement_terms = ['initialis', 'mot de passe', 'mdp', 'password', 'reset']
     for term in chiffrement_terms:
         if term in message_content.lower():
-            return SEGMENT_MOT_DE_PASSE
+            return SEGMENT_MOT_DE_PASSE+suffix
 
 
     return SEGMENT_AUTRE  # Retourne aucun si aucun des termes n'est trouvé
@@ -115,7 +116,7 @@ def extract_segment(message_content: str) -> str:
 # segments are set in conversation
 # An additional segment SEGMENT_SEND_RESPONSE is set to trigger the send of the email
 # this method does 2 things, it should be split in two methods
-def process_conversation(conversation_id:str, verbose=False) -> bool:
+def process_conversation_from_rageshake(conversation_id:str, verbose=False) -> bool:
     try:
         if verbose: 
             print(f"# Extract data from {conversation_id}")
@@ -137,7 +138,7 @@ def process_conversation(conversation_id:str, verbose=False) -> bool:
         
         if email:
             if not DRY_RUN:
-                segment = extract_segment(combined_messages)
+                segment = extract_segment(combined_messages, "from-rageshake")
                 #add segment SEGMENT_SEND_RESPONSE to activate the bot workflow send response
                 #this workflow is : "on Segment update - envoie message"
                 segments =[segment, SEGMENT_SEND_RESPONSE]
@@ -184,7 +185,7 @@ def job_process_invalid_rageshake(processConversationIds:ConversationIdStorage, 
             conversation_id = conversation["session_id"]
             
             if not processConversationIds.has(conversation_id):
-                if process_conversation(conversation_id): 
+                if process_conversation_from_rageshake(conversation_id): 
                     total_updated_rageshake+=1
 
                 processConversationIds.add(conversation_id)

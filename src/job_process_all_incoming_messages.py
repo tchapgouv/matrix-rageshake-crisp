@@ -3,7 +3,7 @@ from dotenv import load_dotenv
 from src.ConversationIdStorage import ConversationIdStorage
 from datetime import datetime, timedelta
 
-from src.job_process_invalid_rageshake import process_conversation, extract_segment
+from src.job_process_invalid_rageshake import process_conversation_from_rageshake, extract_segment
 from src.utils import has_tchap_team_answered, get_conversation_meta, get_conversations, get_messages, update_conversation_meta
 
 
@@ -52,10 +52,10 @@ def job_process_all_incoming_messages(from_minutes:int, processConversationIds:C
             if not processConversationIds.has(conversation_id) and not has_tchap_team_answered(conversation_id):
                 #if email is not correct
                 if conversation_email==DEFAULT_EMAIL:
-                    process_conversation(conversation_id, True)
+                    process_conversation_from_rageshake(conversation_id, True)
                 else:
                     #if email is correct
-                    process_conversation_only_segments(conversation_id, True)
+                    process_conversation_from_email(conversation_id, True)
                 
                 processConversationIds.add(conversation_id)
 
@@ -66,7 +66,7 @@ def job_process_all_incoming_messages(from_minutes:int, processConversationIds:C
 # An additional segment SEGMENT_SEND_RESPONSE is set to trigger the send of the email
 # this method is copied from "job_process_invalid_rageshake.process_conversation"
 # should be refactored
-def process_conversation_only_segments(conversation_id:str, verbose=False) -> bool:
+def process_conversation_from_email(conversation_id:str, verbose=False) -> bool:
     try:
         if verbose: 
             print(f"# Extract data from {conversation_id}")
@@ -81,7 +81,7 @@ def process_conversation_only_segments(conversation_id:str, verbose=False) -> bo
 
         # if email of user is correct (not the default one) continue with segments
         print(f"Email is correct in conversation : {conversation_id}")
-        segment = extract_segment(combined_messages)
+        segment = extract_segment(combined_messages, "from-email")
         #add segment SEGMENT_SEND_RESPONSE to activate the bot workflow send response
         #this workflow is : "on Segment update - envoie message"
         segments =[segment, SEGMENT_SEND_RESPONSE]

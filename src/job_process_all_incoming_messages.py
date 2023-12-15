@@ -81,7 +81,7 @@ def process_conversation_from_email(conversation_id:str, verbose=False) -> bool:
 
         # if email of user is correct (not the default one) continue with segments
         print(f"Email is correct in conversation : {conversation_id}")
-        segment = extract_segment(combined_messages, "from-email")
+        segment = extract_segment(combined_messages)
         #add segment SEGMENT_SEND_RESPONSE to activate the bot workflow send response
         #this workflow is : "on Segment update - envoie message"
         segments =[segment, SEGMENT_SEND_RESPONSE]

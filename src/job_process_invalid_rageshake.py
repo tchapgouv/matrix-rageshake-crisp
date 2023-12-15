@@ -88,25 +88,25 @@ def extract_email_from_user_id(user_id):
 
     return None
 
-def extract_segment(message_content: str, suffix=None) -> str:
+def extract_segment(message_content: str) -> str:
     # Liste des termes associés au segment 'inscription'
     inscription_terms = ['inscript', 'inscrire', 'compte']
-    suffix = ("-"+suffix if suffix is not None else "")
+    #suffix = ("-"+suffix if suffix is not None else "")
     for term in inscription_terms:
         if term in message_content.lower():
-            return SEGMENT_INCRISPTION+suffix
+            return SEGMENT_INCRISPTION
     
     # Liste des termes associés au segment 'chiffrement'
     chiffrement_terms = ['clé', 'chiffr', 'clef', 'cléf', 'crypte', 'crypté','illisible', 'vérouill', 'verrouill']
     for term in chiffrement_terms:
         if term in message_content.lower():
-            return SEGMENT_CHIFFREMENT+suffix
+            return SEGMENT_CHIFFREMENT
     
     # Liste des termes associés au segment 'mot-de-passe'
     chiffrement_terms = ['initialis', 'mot de passe', 'mdp', 'password', 'reset']
     for term in chiffrement_terms:
         if term in message_content.lower():
-            return SEGMENT_MOT_DE_PASSE+suffix
+            return SEGMENT_MOT_DE_PASSE
 
 
     return SEGMENT_AUTRE  # Retourne aucun si aucun des termes n'est trouvé
@@ -138,7 +138,7 @@ def process_conversation_from_rageshake(conversation_id:str, verbose=False) -> b
         
         if email:
             if not DRY_RUN:
-                segment = extract_segment(combined_messages, "from-rageshake")
+                segment = extract_segment(combined_messages)
                 #add segment SEGMENT_SEND_RESPONSE to activate the bot workflow send response
                 #this workflow is : "on Segment update - envoie message"
                 segments =[segment, SEGMENT_SEND_RESPONSE]

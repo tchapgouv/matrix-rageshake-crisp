@@ -150,6 +150,8 @@ def process_conversation_from_rageshake(conversation_id:str, verbose=False) -> b
         #do not fail script
         logging.error(f"error in {conversation_id} : {e}")
         return False
+    
+# deprecated use job_process_all_incoming_messages instead
 def job_process_invalid_rageshake(processConversationIds:ConversationIdStorage, pageMax:int=1):
     
     """

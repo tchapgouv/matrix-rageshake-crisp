@@ -38,7 +38,7 @@ def job_process_sleepy_conversations(conversations_max:int = 0):
         logging.info(f'Wakeup_sleepy_conversation : {crisp_url(conversation_id)}')
         wakeup_sleepy_conversation(conversation_id)
 
-    logging.info(f'End job_process_sleepy_conversations')
+    #logging.info(f'End job_process_sleepy_conversations')
 
 
 

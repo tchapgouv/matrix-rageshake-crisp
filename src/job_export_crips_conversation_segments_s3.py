@@ -95,7 +95,7 @@ def job_export_crips_conversation_segments_s3(max_days_old_conversation):
     #send to s3
     export_crisp_conversations_segments_to_s3(conversations_data_transformed)
 
-    logging.info(f'End job_export_crips_conversation_segments_s3')
+    #logging.info(f'End job_export_crips_conversation_segments_s3')
 
 #not used, not tested yet
 # def insert_data(session_id, updated_at, segments, connection_params):

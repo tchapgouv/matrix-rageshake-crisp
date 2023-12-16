@@ -64,7 +64,7 @@ def job_process_all_incoming_messages(from_minutes:int, processConversationIds:C
                 
                 processConversationIds.add(conversation_id)
 
-    logging.info(f'End job_process_all_incoming_messages')
+    #logging.info(f'End job_process_all_incoming_messages')
 
 
 # process a conversation 

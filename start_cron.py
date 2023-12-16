@@ -21,10 +21,13 @@ processConversationIds = ConversationIdStorage()
 def start_cron():
 
     setLogLevel()
-    cron_shedule:str = os.environ["SCHEDULE_CRISP_INVALID_RAGESHAKE"]
+    #cron_shedule:str = os.environ["SCHEDULE_CRISP_INVALID_RAGESHAKE"]
     cron_process_all_incoming_messages:str = os.environ["SCHEDULE_PROCESS_ALL_MESSAGES_IN_SECONDS"]
     cron_sleepy_conversation:str = os.environ["SCHEDULE_JOB_SLEEPY_CONVERSATION_IN_HOURS"]
     cron_export_segments_to_stat:str = os.environ["SCHEDULE_JOB_EXPORT_SEGMENTS_IN_DAYS"]
+    logging.info(f'Configure cron_process_all_incoming_messages with : {cron_process_all_incoming_messages}')
+    logging.info(f'Configure cron_sleepy_conversation with : {cron_sleepy_conversation}')
+    logging.info(f'Configure cron_export_segments_to_stat with : {cron_export_segments_to_stat}')
 
     # every 'cron_shedule' seconds process new conversations
     #schedule.every(int(cron_shedule)).seconds.do(job_process_invalid_rageshake, processConversationIds=processConversationIds)

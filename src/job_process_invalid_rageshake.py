@@ -4,7 +4,7 @@ import requests
 from typing import Optional, Dict, List
 from dotenv import load_dotenv
 from src.ConversationIdStorage import ConversationIdStorage
-
+import logging
 from src.utils import get_auth_headers, get_messages, update_conversation_meta
 
 """
@@ -36,7 +36,7 @@ def extract_email_from_message(message: str) -> Optional[str]:
         return;
 
     email_match = re.search(EMAIL_REGEX, message)
-    #print(f"regex email match {email_match}")
+    #logging.debug(f"regex email match {email_match}")
     return email_match.group(1) if email_match else None
 
 def extract_user_id_from_message(message: str) -> Optional[str]:
@@ -119,19 +119,20 @@ def extract_segment(message_content: str) -> str:
 def process_conversation_from_rageshake(conversation_id:str, verbose=False) -> bool:
     try:
         if verbose: 
-            print(f"# Extract data from {conversation_id}")
+            logging.debug(f"# Extract data from {conversation_id}")
+        
         messages = get_messages(conversation_id)
         #first_message = messages[0]["content"]
         message_contents = list(map(lambda message: str(message["content"]), messages))  # Extract the "content" field from each message
         combined_messages = "".join(message_contents).replace("\n","")  # Concatenate the message contents together into a single string
 
         if verbose: 
-            print(f"all messages : {combined_messages}")
+            logging.debug(f"all messages : {combined_messages}")
 
         email = extract_email_from_message(combined_messages)
         userId = extract_user_id_from_message(combined_messages)
         if verbose: 
-            print(f"found in {conversation_id}: userId: {userId}, email {email}")
+            logging.debug(f"found in {conversation_id}: userId: {userId}, email {email}")
 
         if not email or email == 'undefined':
             email = extract_email_from_user_id(userId)
@@ -147,7 +148,7 @@ def process_conversation_from_rageshake(conversation_id:str, verbose=False) -> b
         return False
     except Exception as e:
         #do not fail script
-        print(f"error in {conversation_id} : {e}")
+        logging.error(f"error in {conversation_id} : {e}")
         return False
 def job_process_invalid_rageshake(processConversationIds:ConversationIdStorage, pageMax:int=1):
     
@@ -176,7 +177,7 @@ def job_process_invalid_rageshake(processConversationIds:ConversationIdStorage, 
 
         
         conversations = get_invalid_conversations(current_page_number) #fails script if can not get invalid conversations
-        #print(f"In page {current_page_number}, # conversations with invalid rageshake : {len(conversations)}")
+        #logging.debug(f"In page {current_page_number}, # conversations with invalid rageshake : {len(conversations)}")
 
         if not conversations:
             break
@@ -191,6 +192,6 @@ def job_process_invalid_rageshake(processConversationIds:ConversationIdStorage, 
                 processConversationIds.add(conversation_id)
             #else:    
                 #do not process conversation already processed
-                #print(f"Conversation already processed : {conversation_id}")
+                #logging.debug(f"Conversation already processed : {conversation_id}")
         
         current_page_number += 1

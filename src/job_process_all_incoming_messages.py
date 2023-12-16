@@ -2,6 +2,7 @@ import os
 from dotenv import load_dotenv
 from src.ConversationIdStorage import ConversationIdStorage
 from datetime import datetime, timedelta
+import logging
 
 from src.job_process_invalid_rageshake import process_conversation_from_rageshake, extract_segment
 from src.utils import has_tchap_team_answered, get_conversation_meta, get_conversations, get_messages, update_conversation_meta
@@ -37,6 +38,8 @@ def job_process_all_incoming_messages(from_minutes:int, processConversationIds:C
     Returns: None
     """
 
+    logging.info(f'Start job_process_all_incoming_messages with from_minutes : {from_minutes}')
+
     # get conversations from last 20 minutes
     recent_conversations = get_conversations({
             "filter_date_end" : datetime.now(),
@@ -52,12 +55,16 @@ def job_process_all_incoming_messages(from_minutes:int, processConversationIds:C
             if not processConversationIds.has(conversation_id) and not has_tchap_team_answered(conversation_id):
                 #if email is not correct
                 if conversation_email==DEFAULT_EMAIL:
+                    logging.info(f'Process_conversation_from_rageshake : {conversation_id}')
                     process_conversation_from_rageshake(conversation_id, True)
                 else:
                     #if email is correct
+                    logging.info(f'Process_conversation_from_email : {conversation_id}')
                     process_conversation_from_email(conversation_id, True)
                 
                 processConversationIds.add(conversation_id)
+
+    logging.info(f'End job_process_all_incoming_messages')
 
 
 # process a conversation 
@@ -69,18 +76,18 @@ def job_process_all_incoming_messages(from_minutes:int, processConversationIds:C
 def process_conversation_from_email(conversation_id:str, verbose=False) -> bool:
     try:
         if verbose: 
-            print(f"# Extract data from {conversation_id}")
+            logging.debug(f"# Extract data from {conversation_id}")
         messages = get_messages(conversation_id)
         #first_message = messages[0]["content"]
         message_contents = list(map(lambda message: str(message["content"]), messages))  # Extract the "content" field from each message
         combined_messages = "".join(message_contents).replace("\n","")  # Concatenate the message contents together into a single string
 
         if verbose: 
-            print(f"all messages : {combined_messages}")
+            logging.debug(f"all messages : {combined_messages}")
 
 
         # if email of user is correct (not the default one) continue with segments
-        print(f"Email is correct in conversation : {conversation_id}")
+        logging.debug(f"Email is correct in conversation : {conversation_id}")
         segment = extract_segment(combined_messages)
         #add segment SEGMENT_SEND_RESPONSE to activate the bot workflow send response
         #this workflow is : "on Segment update - envoie message"
@@ -91,5 +98,5 @@ def process_conversation_from_email(conversation_id:str, verbose=False) -> bool:
         return True
     except Exception as e:
         #do not fail script
-        print(f"error in {conversation_id} : {e}")
+        logging.error(f"error in {conversation_id} : {e}")
         return False  

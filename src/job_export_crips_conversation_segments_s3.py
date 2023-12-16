@@ -7,6 +7,7 @@ from src.utils import get_conversations
 import boto3
 import tempfile
 from datetime import datetime, timedelta
+import logging
 
 CRISP_WEBSITE_ID = os.environ["CRISP_WEBSITE_ID"]
 S3_ACCESS_KEY_ID=os.environ["S3_ACCESS_KEY_ID"]
@@ -53,6 +54,9 @@ def export_crisp_conversations_segments_to_s3(data):
 
         temp_file_path = temp_file.name
 
+
+    
+
     # S3 connexion 
     s3_client = boto3.client('s3',
                             aws_access_key_id=S3_ACCESS_KEY_ID,
@@ -73,6 +77,9 @@ def job_export_crips_conversation_segments_s3(max_days_old_conversation):
     
  
     """
+    logging.info(f'Start job_export_crips_conversation_segments_s3 with max_days_old_conversation : {max_days_old_conversation}')
+
+
     #get conversations from 
     conversations_data = get_conversations({
             #"filter_resolved": 1,
@@ -83,8 +90,12 @@ def job_export_crips_conversation_segments_s3(max_days_old_conversation):
     
     conversations_data_transformed = transform_data(conversations_data)
 
+    logging.info(f'Sending csv file with # conversations : {len(conversations_data_transformed)}')
+
     #send to s3
     export_crisp_conversations_segments_to_s3(conversations_data_transformed)
+
+    logging.info(f'End job_export_crips_conversation_segments_s3')
 
 #not used, not tested yet
 # def insert_data(session_id, updated_at, segments, connection_params):

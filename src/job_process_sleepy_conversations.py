@@ -4,7 +4,7 @@ from datetime import datetime, timedelta
 import time
 from typing import Dict, List
 from dotenv import load_dotenv
-
+import logging
 from src.utils import get_auth_headers, crisp_url, change_conversation_state, is_last_message_from_operator
 
 # load environment variables from .env file
@@ -29,17 +29,21 @@ def job_process_sleepy_conversations(conversations_max:int = 0):
     
     Returns: None
     """
+    logging.info(f'Start job_process_sleepy_conversations with conversations_max : {conversations_max}')
 
-    print(f'Starting Job of processing sleepy conversation')
     sleepy_conversations = get_sleepy_conversations(conversations_max if conversations_max > 0 else 999999)
 
     for sleepy_conversation in sleepy_conversations:
-        wakeup_sleepy_conversation(sleepy_conversation["session_id"])
+        conversation_id = sleepy_conversation["session_id"]
+        logging.info(f'Wakeup_sleepy_conversation : {crisp_url(conversation_id)}')
+        wakeup_sleepy_conversation(conversation_id)
+
+    logging.info(f'End job_process_sleepy_conversations')
+
 
 
 
 def wakeup_sleepy_conversation(conversation_id:str):
-    print(f'wakeup sleepy conversation : {crisp_url(conversation_id)}')
     message = """
             *Ceci est un message automatique*
 
@@ -68,7 +72,7 @@ def get_sleepy_conversations(conversations_max:int) -> List[Dict]:
     sleepy_conversations = []
 
     not_resolved_conversations = get_not_resolved_conversations()
-    print(f'Not resolved conversations : {len(not_resolved_conversations)}')
+    logging.debug(f'Not resolved conversations : {len(not_resolved_conversations)}')
 
     #loop upon resolved conversations from the oldest to the newest
     for conversation in reversed(not_resolved_conversations):
@@ -77,12 +81,12 @@ def get_sleepy_conversations(conversations_max:int) -> List[Dict]:
         time.sleep(1)
 
         if is_older_than_seven_days(conversation) and is_last_message_from_operator(conversation["session_id"]):
-            print(f'sleepy conversation : {crisp_url(conversation["session_id"])}')
+            logging.debug(f'sleepy conversation : {crisp_url(conversation["session_id"])}')
             sleepy_conversations.append(conversation)
             if len(sleepy_conversations) >= conversations_max:
                 break 
         else:
-            print(f'not-resolved-not-sleepy conversation : {crisp_url(conversation["session_id"])}')
+            logging.debug(f'not-resolved-not-sleepy conversation : {crisp_url(conversation["session_id"])}')
 
     
     return sleepy_conversations
@@ -123,7 +127,7 @@ def get_not_resolved_conversations() -> List[Dict]:
         end_looping = len(conversations_to_append) == 0
         page_number += 1
 
-        print(f'not resolved conversations : {len(not_resolved_conversations)}')
+        logging.debug(f'not resolved conversations : {len(not_resolved_conversations)}')
         #avoid spamming crisp, sleep a bit
         time.sleep(1)
 

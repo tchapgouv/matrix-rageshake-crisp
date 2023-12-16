@@ -127,7 +127,7 @@ def update_conversation_meta(conversation_id: str, email: str = None, segments: 
     #get existing segments, return empty array if no segment
     existing_segments = list(get_conversation_meta(conversation_id)["data"]["segments"])
     
-    print(f"update {email} and segment {segments} in {conversation_id} with existing segments {existing_segments}")
+    logging.debug(f"update {email} and segment {segments} in {conversation_id} with existing segments {existing_segments}")
     update_url = f"https://api.crisp.chat/v1/website/{CRISP_WEBSITE_ID}/conversation/{conversation_id}/meta"
     update_payload = {}
     if email: # si email n'est pas None ou vide

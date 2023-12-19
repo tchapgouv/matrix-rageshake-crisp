@@ -57,6 +57,16 @@
       "description": "S3 SECRET_ACCESS_KEY name where to export the crisp segments",,
       "value": "",
       "required": true
+    },
+    "SCHEDULE_PROCESS_ALL_MESSAGES_IN_SECONDS": {
+      "description": "CRON schedule for the job job_process_all_recent_conversations in seconds",
+      "value": 120,
+      "required": true
+    },
+    "LOGLEVEL": {
+      "description": "Set LogLevel (WARNING, INFO, DEBUG..), default to DEBUG",
+      "value": "DEBUG",
+      "required": false
     }
   },
   "formation": {

@@ -41,6 +41,8 @@ class TestFunctions(unittest.TestCase):
         message = 'email: "firstname.lastname1-2.3.4_5@example.com"'
         expected_email = 'firstname.lastname1-2.3.4_5@example.com'
         self.assertEqual(extract_email_from_message(message), expected_email)
+
+        
         
     def test_extract_user_id_from_message(self):
         message = 'user_id: "@julien.dauphant-beta.gouv.fr:agent.dinum.tchap.gouv.fr"'
@@ -53,6 +55,9 @@ class TestFunctions(unittest.TestCase):
         message = 'Please respond to firstname.lastname1-2.3.4_5@example.com'
         self.assertIsNone(extract_user_id_from_message(message))
         
+        message = 'email :baba-ac-aix-marseille.fr:agent.education.tchap.gouv.fr'
+        expected_user_id = '@baba-beta.gouv.fr:agent.dinum.tchap.gouv.fr'
+
 
     def test_extract_email_from_user_id(self):
         test_cases = [

@@ -21,7 +21,7 @@ and to replace it by the real email of the participant if it can be found in the
 load_dotenv()
 
 CRISP_WEBSITE_ID = os.environ["CRISP_WEBSITE_ID"]
-DEFAULT_EMAIL = os.environ.get("DEFAULT_EMAIL", "rageshake@beta.gouv.fr")
+DEFAULT_EMAIL = os.environ.get("DEFAULT_EMAIL", "rageshake@tchap.gouv.fr")
 DRY_RUN = os.environ.get("DRY_RUN", "true").lower() == "true"
 
 
@@ -38,7 +38,7 @@ def job_process_all_incoming_messages(from_minutes:int, processConversationIds:C
     Returns: None
     """
 
-    logging.info(f'Start job_process_all_incoming_messages with from_minutes : {from_minutes}')
+    logging.debug(f'Start job_process_all_incoming_messages with from_minutes : {from_minutes}')
 
     # get conversations from last 20 minutes
     recent_conversations = get_conversations({
@@ -48,13 +48,9 @@ def job_process_all_incoming_messages(from_minutes:int, processConversationIds:C
     
     for conversation in recent_conversations:
             conversation_id = conversation["session_id"]
-            
-            conversation_meta = get_conversation_meta(conversation_id)["data"]
-            conversation_email = conversation_meta['email']
-
             if not processConversationIds.has(conversation_id) and not has_tchap_team_answered(conversation_id):
                 #if email is not correct
-                if conversation_email==DEFAULT_EMAIL:
+                if is_email_valid(conversation_id):
                     logging.info(f'Process_conversation_from_rageshake : {conversation_id}')
                     process_conversation_from_rageshake(conversation_id, True)
                 else:
@@ -65,6 +61,12 @@ def job_process_all_incoming_messages(from_minutes:int, processConversationIds:C
                 processConversationIds.add(conversation_id)
 
     #logging.info(f'End job_process_all_incoming_messages')
+
+
+def is_email_valid(conversation_id):
+    conversation_meta = get_conversation_meta(conversation_id)["data"]
+    conversation_email:str = conversation_meta['email']
+    return conversation_email != DEFAULT_EMAIL
 
 
 # process a conversation 

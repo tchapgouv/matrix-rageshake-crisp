@@ -50,7 +50,7 @@ def job_process_all_incoming_messages(from_minutes:int, processConversationIds:C
             conversation_id = conversation["session_id"]
             if not processConversationIds.has(conversation_id) and not has_tchap_team_answered(conversation_id):
                 #if email is not correct
-                if is_email_valid(conversation_id):
+                if not is_email_valid(conversation_id):
                     logging.info(f'Process_conversation_from_rageshake : {conversation_id}')
                     process_conversation_from_rageshake(conversation_id, True)
                 else:

@@ -43,6 +43,11 @@
       "value": "1",
       "required": true
     },
+    "JOB_EXPORT_SEGMENTS_HISTORY_IN_DAYS": {
+      "description": "configure how days of history to export in job job_export_crips_conversation_segments_s3",
+      "value": "10",
+      "required": true
+    },
     "S3_BUCKET_NAME": {
       "description": "S3 bucket name where to export the crisp segments",
       "value": "tchap-bucket",

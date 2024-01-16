@@ -25,9 +25,12 @@ def start_cron():
     cron_process_all_incoming_messages:str = os.environ["SCHEDULE_PROCESS_ALL_MESSAGES_IN_SECONDS"]
     cron_sleepy_conversation:str = os.environ["SCHEDULE_JOB_SLEEPY_CONVERSATION_IN_HOURS"]
     cron_export_segments_to_stat:str = os.environ["SCHEDULE_JOB_EXPORT_SEGMENTS_IN_DAYS"]
+    job_export_segments_history_in_days:str = os.environ["JOB_EXPORT_SEGMENTS_HISTORY_IN_DAYS"]
     logging.info(f'Configure cron_process_all_incoming_messages with : {cron_process_all_incoming_messages}')
     logging.info(f'Configure cron_sleepy_conversation with : {cron_sleepy_conversation}')
     logging.info(f'Configure cron_export_segments_to_stat with : {cron_export_segments_to_stat}')
+    logging.info(f'Configure job_export_segments_history_in_days with : {job_export_segments_history_in_days}')
+
 
     # every 'cron_shedule' seconds process new conversations
     #schedule.every(int(cron_shedule)).seconds.do(job_process_invalid_rageshake, processConversationIds=processConversationIds)
@@ -36,8 +39,8 @@ def start_cron():
     # process 10 sleepy conversations every 'cron_sleepy_conversation' hours
     schedule.every(int(cron_sleepy_conversation)).hours.do(job_process_sleepy_conversations, 10)
 
-    # every 'cron_export_segments_to_stat' days export the conversations from last 10 days
-    schedule.every(int(cron_export_segments_to_stat)).days.do(job_export_crips_conversation_segments_s3, 10)
+    # every 'cron_export_segments_to_stat' days export the conversations from last 'job_export_segments_history_in_days' days
+    schedule.every(int(cron_export_segments_to_stat)).days.do(job_export_crips_conversation_segments_s3, job_export_segments_history_in_days)
 
 
     while True:

@@ -17,6 +17,7 @@ The following environment variables must be set before running the script:
 - `SCHEDULE_CRISP_INVALID_RAGESHAKE`: cron schedule for the job crips invalid rageshake (by default 60 seconds)
 - `SCHEDULE_JOB_SLEEPY_CONVERSATION_IN_HOURS`: cron schedule for the job job_process_sleepy_conversations (by default 24 hours)
 - `SCHEDULE_JOB_EXPORT_SEGMENTS_IN_DAYS`: CRON schedule for the job job_export_crips_conversation_segments_s3 in days  (by default 1 day)
+- `JOB_EXPORT_SEGMENTS_HISTORY_IN_DAYS`: configure how days of history to export in job job_export_crips_conversation_segments_s3 (default 10 days)
 - `SCHEDULE_PROCESS_ALL_MESSAGES_IN_SECONDS`: CRON schedule for the job job_process_all_recent_conversations in seconds (by default 120 seconds)
 - `LOGLEVEL`: Set LogLevel (WARNING, INFO, DEBUG..), default to DEBUG
 

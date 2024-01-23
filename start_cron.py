@@ -40,7 +40,7 @@ def start_cron():
     schedule.every(int(cron_sleepy_conversation)).hours.do(job_process_sleepy_conversations, 10)
 
     # every 'cron_export_segments_to_stat' days export the conversations from last 'job_export_segments_history_in_days' days
-    schedule.every(int(cron_export_segments_to_stat)).days.do(job_export_crips_conversation_segments_s3, job_export_segments_history_in_days)
+    schedule.every(int(cron_export_segments_to_stat)).days.do(job_export_crips_conversation_segments_s3, int(job_export_segments_history_in_days))
 
 
     while True:

@@ -72,7 +72,7 @@ def export_crisp_conversations_segments_to_s3(data):
         s3_client.upload_fileobj(data, bucket_name, file_name, ExtraArgs={'ContentType': "text/csv"})
 
 
-def job_export_crips_conversation_segments_s3(max_days_old_conversation):
+def job_export_crips_conversation_segments_s3(max_days_old_conversation:int):
     """
     
  

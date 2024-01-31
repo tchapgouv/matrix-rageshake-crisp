@@ -109,9 +109,9 @@ def extract_segment(message_content: str) -> str:
         if term in message_content.lower():
             return SEGMENT_MOT_DE_PASSE
 
-# Liste des termes associés au segment 'notification'
-    chiffrement_terms = ['notification', 'notifications', 'notif', 'alerte', 'alerter', 'alertes']
-    for term in chiffrement_terms:
+    # Liste des termes associés au segment 'notification'
+    notification_terms = ['notif', 'push', 'alert']
+    for term in notification_terms:
         if term in message_content.lower():
             return SEGMENT_NOTIFICATION
 

@@ -25,12 +25,20 @@ DRY_RUN = os.environ.get("DRY_RUN", "true").lower() == "true"
 EMAIL_REGEX = r"email: ?\s*\"([^\"]+)\""
 USER_ID_REGEX = r"user_id: ?\s*\"([^\"]+)\""
 
+# User-Agent: "Tchap/2.8.4 (samsung SM-A137F; Android 13; TP1A.220624.014.A137FXXS3CWL1; Flavour GooglePlay; MatrixAndroidSdk2 1.5.32)"
+# User-Agent: "iOS"
+PLATFORM_IOS_REGEX = r"user-agent: \"ios\""
+PLATFORM_ANDROID_REGEX = r"user-agent: \"tchap/[0-9\.]* \(.* android [0-9]+; .*\)\""
+
 SEGMENT_SEND_RESPONSE = "bot-send-response"
 SEGMENT_CHIFFREMENT = "chiffrement"
 SEGMENT_MOT_DE_PASSE = "mot-de-passe"
 SEGMENT_INCRISPTION = "inscription"
 SEGMENT_AUTRE = "autre"
 SEGMENT_NOTIFICATION = "notification"
+SEGMENT_PLATFORM_IOS = "ios"
+SEGMENT_PLATFORM_ANDROID = "android"
+SEGMENT_PLATFORM_WEB = "web"
 
 def extract_email_from_message(message: str) -> Optional[str]:
     if not isinstance(message, str):
@@ -117,6 +125,25 @@ def extract_segment(message_content: str) -> str:
 
     return SEGMENT_AUTRE  # Retourne aucun si aucun des termes n'est trouvé
 
+
+def extract_platform(message_content: str) -> Optional[str]:
+    if not isinstance(message_content, str):
+        return;
+
+    message_content_lower = message_content.lower()
+
+    platform_match_ios = re.search(PLATFORM_IOS_REGEX, message_content_lower)
+    if platform_match_ios:
+        return SEGMENT_PLATFORM_IOS
+    
+    platform_match_android = re.search(PLATFORM_ANDROID_REGEX, message_content_lower)
+    if platform_match_android:
+        return SEGMENT_PLATFORM_ANDROID
+
+    return SEGMENT_PLATFORM_WEB
+
+
+
 # process a conversation 
 # if email is invalid (rageshake) it is reset
 # segments are set in conversation
@@ -148,7 +175,10 @@ def process_conversation_from_rageshake(conversation_id:str, verbose=False) -> b
                 segment = extract_segment(combined_messages)
                 #add segment SEGMENT_SEND_RESPONSE to activate the bot workflow send response
                 #this workflow is : "on Segment update - envoie message"
-                segments =[segment, SEGMENT_SEND_RESPONSE]
+                segments = [segment, SEGMENT_SEND_RESPONSE]
+                platform = extract_platform(combined_messages)
+                logging.debug(f"# Platform found: {platform}")
+                segments = [segments, platform]
                 update_conversation_meta(conversation_id=conversation_id, email=email, segments=segments)
                 return True
         return False

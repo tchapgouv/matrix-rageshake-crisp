@@ -2,7 +2,7 @@ import unittest
 import random
 import string
 
-from src.job_process_invalid_rageshake import extract_segment,update_conversation_meta, extract_email_from_user_id, extract_email_from_message, extract_user_id_from_message, process_conversation_from_rageshake,get_invalid_conversations,get_messages
+from src.job_process_invalid_rageshake import extract_segment,update_conversation_meta, extract_email_from_user_id, extract_email_from_message, extract_user_id_from_message, extract_platform_from_message, process_conversation_from_rageshake,get_invalid_conversations,get_messages
 
 
 #utils functions
@@ -83,6 +83,19 @@ class TestFunctions(unittest.TestCase):
 
         for user_id, expected_email in test_cases:
             self.assertEqual(extract_email_from_user_id(user_id), expected_email)
+
+    def test_extract_plaetform_from_message(self):
+        message = 'User-Agent: "iOS"'
+        expected_platform_id = 'ios'
+        self.assertEqual(extract_platform_from_message(message), expected_platform_id)
+
+        message = 'User-Agent: "Tchap/2.9.8 (Google Pixel 5; Android 14; UP1A.231105.001; Flavour GooglePlay; MatrixAndroidSdk2 1.6.8)"'
+        expected_platform_id = 'android'
+        self.assertEqual(extract_platform_from_message(message), expected_platform_id)
+
+        message = 'User-Agent: "undefined"'
+        expected_platform_id = 'web'
+        self.assertEqual(extract_platform_from_message(message), expected_platform_id)
 
 if __name__ == "__main__":
     unittest.main() 

@@ -126,7 +126,7 @@ def extract_segment(message_content: str) -> str:
     return SEGMENT_AUTRE  # Retourne aucun si aucun des termes n'est trouvé
 
 
-def extract_platform(message_content: str) -> Optional[str]:
+def extract_platform_from_message(message_content: str) -> Optional[str]:
     if not isinstance(message_content, str):
         return;
 
@@ -176,9 +176,9 @@ def process_conversation_from_rageshake(conversation_id:str, verbose=False) -> b
                 #add segment SEGMENT_SEND_RESPONSE to activate the bot workflow send response
                 #this workflow is : "on Segment update - envoie message"
                 segments = [segment, SEGMENT_SEND_RESPONSE]
-                platform = extract_platform(combined_messages)
-                logging.debug(f"# Platform found: {platform}")
-                segments = [segments, platform]
+                platform = extract_platform_from_message(combined_messages)
+                if platform:
+                    segments.append(platform)
                 update_conversation_meta(conversation_id=conversation_id, email=email, segments=segments)
                 return True
         return False

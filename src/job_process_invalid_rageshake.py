@@ -90,12 +90,12 @@ def extract_email_from_user_id(user_id):
     return None
 
 def extract_segment(message_content: str) -> str:
-    # Liste des termes associés au segment 'inscription'
-    inscription_terms = ['inscript', 'inscrire', 'compte']
-    #suffix = ("-"+suffix if suffix is not None else "")
-    for term in inscription_terms:
+   # Liste des termes associés au segment 'mot-de-passe'
+    chiffrement_terms = ['initialis', 'mot de passe', 'mdp', 'password', 'reset', 'connecter']
+    for term in chiffrement_terms:
         if term in message_content.lower():
-            return SEGMENT_INCRISPTION
+            return SEGMENT_MOT_DE_PASSE
+    
     
     # Liste des termes associés au segment 'chiffrement'
     chiffrement_terms = ['clé', 'chiffr', 'clef', 'cléf', 'crypte', 'crypté','illisible', 'véroui', 'verroui', 'veroui','vérroui']
@@ -103,11 +103,13 @@ def extract_segment(message_content: str) -> str:
         if term in message_content.lower():
             return SEGMENT_CHIFFREMENT
     
-    # Liste des termes associés au segment 'mot-de-passe'
-    chiffrement_terms = ['initialis', 'mot de passe', 'mdp', 'password', 'reset', 'connecter']
-    for term in chiffrement_terms:
+
+    # Liste des termes associés au segment 'inscription'
+    inscription_terms = ['inscript', 'inscrire', 'compte']
+    #suffix = ("-"+suffix if suffix is not None else "")
+    for term in inscription_terms:
         if term in message_content.lower():
-            return SEGMENT_MOT_DE_PASSE
+            return SEGMENT_INCRISPTION
 
     # Liste des termes associés au segment 'notification'
     notification_terms = ['notif', 'push', 'alert']

@@ -5,6 +5,10 @@ This script searches for conversations on the Crisp API that have the RAGESHAKE_
 It interacts with crisp by a Plugin published here : https://marketplace.crisp.chat/plugins/
 If dev tokens reach max quota (429 Client Error: Too Many Requests), they can be reset here : https://marketplace.crisp.chat/plugins/plugin/50c492e5-7175-45d0-a449-913aa8bc6cfd/tokens/
 
+## Logs
+
+https://dashboard.scalingo.com/apps/osc-secnum-fr1/tchap-rageshake-crisp/logs
+
 ## Setup
 
 The following environment variables must be set before running the script:

@@ -28,7 +28,7 @@ USER_ID_REGEX = r"user_id: ?\s*\"([^\"]+)\""
 # User-Agent: "Tchap/2.8.4 (samsung SM-A137F; Android 13; TP1A.220624.014.A137FXXS3CWL1; Flavour GooglePlay; MatrixAndroidSdk2 1.5.32)"
 # User-Agent: "iOS"
 PLATFORM_IOS_REGEX = r"user-agent: \"ios\""
-PLATFORM_ANDROID_REGEX = r"user-agent: \"tchap/[0-9\.]*(-dev){0,1} \(.* android [0-9]+; .*\)\""
+PLATFORM_ANDROID_REGEX = r"user-agent: \"tchap/[0-9\.]* \(.* android [0-9]+; .*\)\""
 
 SEGMENT_SEND_RESPONSE = "bot-send-response"
 SEGMENT_CHIFFREMENT = "chiffrement"

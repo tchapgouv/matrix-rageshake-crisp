@@ -103,6 +103,10 @@ class TestFunctions(unittest.TestCase):
         expected_platform_id = 'android'
         self.assertEqual(extract_platform_from_message(message), expected_platform_id)
 
+        message = 'User-Agent: "Tchap/2.10.0-dev (HUAWEI MAR-LX1A; Android 10; MAR-L21A 10.0.0.275(C431E8R2P7); Flavour GooglePlay; MatrixAndroidSdk2 1.6.8)"'
+        expected_platform_id = 'android'
+        self.assertEqual(extract_platform_from_message(message), expected_platform_id)
+
         message = 'User-Agent: "undefined"'
         expected_platform_id = 'web'
         self.assertEqual(extract_platform_from_message(message), expected_platform_id)

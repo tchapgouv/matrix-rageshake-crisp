@@ -15,10 +15,10 @@ class TestFunctions(unittest.TestCase):
 
     @unittest.skip("integration tests are skip by default")
     def test_conversation(self):
-        conversationId = "session_54315322-66b0-45a3-95a0-1a1671a334ee" 
+        conversationId = "session_c237d015-2fd7-41b5-9c68-624846200c37" 
         process_conversation_from_email(conversationId , True)
 
-    #@unittest.skip("integration tests are skip by default")
+    @unittest.skip("integration tests are skip by default")
     def test_is_email_valid(self):
         conversationId = "session_8a236767-49aa-4dc2-a41b-8ad961769ee7" 
         self.assertEqual(is_email_valid(conversationId), False)

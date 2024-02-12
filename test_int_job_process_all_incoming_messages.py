@@ -15,7 +15,7 @@ class TestFunctions(unittest.TestCase):
 
     @unittest.skip("integration tests are skip by default")
     def test_conversation(self):
-        conversationId = "session_c237d015-2fd7-41b5-9c68-624846200c37" 
+        conversationId = "session_c17f9280-f854-438b-87b1-da6ea67d2bb4" 
         process_conversation_from_email(conversationId , True)
 
     @unittest.skip("integration tests are skip by default")

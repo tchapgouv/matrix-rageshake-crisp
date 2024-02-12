@@ -4,7 +4,7 @@ from src.ConversationIdStorage import ConversationIdStorage
 from datetime import datetime, timedelta
 import logging
 
-from src.job_process_invalid_rageshake import process_conversation_from_rageshake, extract_segment, extract_platform_from_message
+from src.job_process_invalid_rageshake import process_conversation_from_rageshake, extract_segment, extract_platform_from_message, extract_voip_context_from_message
 from src.utils import has_tchap_team_answered, get_conversation_meta, get_conversations, get_messages, update_conversation_meta
 
 
@@ -97,6 +97,9 @@ def process_conversation_from_email(conversation_id:str, verbose=False) -> bool:
         platform = extract_platform_from_message(combined_messages)
         if platform:
             segments.append(platform)
+        voip_context = extract_voip_context_from_message(combined_messages)
+        if voip_context:
+            segments.append(voip_context)
         # conversation should be in "unresolved" state before updating segments
         # change_conversation_state(conversation_id, "unresolved")
         update_conversation_meta(conversation_id=conversation_id, segments=segments)

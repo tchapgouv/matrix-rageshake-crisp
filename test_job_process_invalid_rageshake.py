@@ -2,7 +2,7 @@ import unittest
 import random
 import string
 
-from src.job_process_invalid_rageshake import extract_segment,update_conversation_meta, extract_email_from_user_id, extract_email_from_message, extract_user_id_from_message, extract_platform_from_message, process_conversation_from_rageshake,get_invalid_conversations,get_messages
+from src.job_process_invalid_rageshake import extract_segment,update_conversation_meta, extract_email_from_user_id, extract_email_from_message, extract_user_id_from_message, extract_platform_from_message, extract_voip_context_from_message, process_conversation_from_rageshake,get_invalid_conversations,get_messages
 
 
 #utils functions
@@ -84,7 +84,7 @@ class TestFunctions(unittest.TestCase):
         for user_id, expected_email in test_cases:
             self.assertEqual(extract_email_from_user_id(user_id), expected_email)
 
-    def test_extract_plaetform_from_message(self):
+    def test_extract_plateform_from_message(self):
         message = 'User-Agent: "iOS"'
         expected_platform_id = 'ios'
         self.assertEqual(extract_platform_from_message(message), expected_platform_id)
@@ -98,8 +98,19 @@ class TestFunctions(unittest.TestCase):
         self.assertEqual(extract_platform_from_message(message), expected_platform_id)
 
         message = None
-        expected_platform_id = None
-        self.assertEqual(extract_platform_from_message(message), expected_platform_id)
+        self.assertIsNone(extract_platform_from_message(message))
+
+
+    def test_extract_voip_context_from_message(self):
+        message = 'User-Agent: "iOS"'
+        self.assertIsNone(extract_voip_context_from_message(message))
+
+        message = 'context: "voip"'
+        expected_platform_id = 'voip'
+        self.assertEqual(extract_voip_context_from_message(message), expected_platform_id)
+
+        message = None
+        self.assertIsNone(extract_voip_context_from_message(message))
 
 if __name__ == "__main__":
     unittest.main() 

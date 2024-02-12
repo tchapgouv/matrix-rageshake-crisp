@@ -97,5 +97,9 @@ class TestFunctions(unittest.TestCase):
         expected_platform_id = 'web'
         self.assertEqual(extract_platform_from_message(message), expected_platform_id)
 
+        message = None
+        expected_platform_id = None
+        self.assertEqual(extract_platform_from_message(message), expected_platform_id)
+
 if __name__ == "__main__":
     unittest.main() 

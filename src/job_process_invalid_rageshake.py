@@ -30,6 +30,8 @@ USER_ID_REGEX = r"user_id: ?\s*\"([^\"]+)\""
 PLATFORM_IOS_REGEX = r"user-agent: \"ios\""
 PLATFORM_ANDROID_REGEX = r"user-agent: \"tchap/[0-9\.]*(-dev){0,1} \(.* android [0-9]+; .*\)\""
 
+VOIP_REGEX = r"context: \"voip\""
+
 SEGMENT_SEND_RESPONSE = "bot-send-response"
 SEGMENT_CHIFFREMENT = "chiffrement"
 SEGMENT_MOT_DE_PASSE = "mot-de-passe"
@@ -39,6 +41,7 @@ SEGMENT_NOTIFICATION = "notification"
 SEGMENT_PLATFORM_IOS = "ios"
 SEGMENT_PLATFORM_ANDROID = "android"
 SEGMENT_PLATFORM_WEB = "web"
+SEGMENT_VOIP = "voip"
 
 def extract_email_from_message(message: str) -> Optional[str]:
     if not isinstance(message, str):
@@ -128,7 +131,7 @@ def extract_segment(message_content: str) -> str:
 
 def extract_platform_from_message(message_content: str) -> Optional[str]:
     if not isinstance(message_content, str):
-        return;
+        return None
 
     message_content_lower = message_content.lower()
 
@@ -141,6 +144,19 @@ def extract_platform_from_message(message_content: str) -> Optional[str]:
         return SEGMENT_PLATFORM_ANDROID
 
     return SEGMENT_PLATFORM_WEB
+
+
+def extract_voip_context_from_message(message_content: str) -> Optional[str]:
+    if not isinstance(message_content, str):
+        return None
+
+    message_content_lower = message_content.lower()
+
+    platform_match_ios = re.search(VOIP_REGEX, message_content_lower)
+    if platform_match_ios:
+        return SEGMENT_VOIP
+
+    return None
 
 
 
@@ -179,6 +195,9 @@ def process_conversation_from_rageshake(conversation_id:str, verbose=False) -> b
                 platform = extract_platform_from_message(combined_messages)
                 if platform:
                     segments.append(platform)
+                voip_context = extract_voip_context_from_message(combined_messages)
+                if voip_context:
+                    segments.append(voip_context)
                 update_conversation_meta(conversation_id=conversation_id, email=email, segments=segments)
                 return True
         return False

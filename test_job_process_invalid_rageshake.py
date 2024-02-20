@@ -114,20 +114,17 @@ class TestFunctions(unittest.TestCase):
 
 
     def test_extract_domain_from_message(self):
-        user_id = None
-        self.assertIsNone(extract_domain_from_email(user_id))
-
-        user_id = '"@john.doe-unknown.gouv.fr:agent.dinum.tchap.gouv.fr"'
-        self.assertIsNone(extract_domain_from_email(extract_email_from_user_id(user_id)))
+        email = None
+        self.assertIsNone(extract_domain_from_email(email))
         
-        user_id = '"@john.doe-beta.gouv.fr:agent.dinum.tchap.gouv.fr"'
-        self.assertEqual(extract_domain_from_email(extract_email_from_user_id(user_id)), "beta.gouv.fr")
+        email = "john.doe@beta.gouv.fr"
+        self.assertEqual(extract_domain_from_email(email), "beta.gouv.fr")
 
-        user_id = '"@john.doe-developpement-durable.gouv.fr:agent.dev-durable.tchap.gouv.fr"'
-        self.assertEqual(extract_domain_from_email(extract_email_from_user_id(user_id)), "developpement-durable.gouv.fr")
+        email = "john.doe@developpement-durable.gouv.fr"
+        self.assertEqual(extract_domain_from_email(email), "developpement-durable.gouv.fr")
 
-        user_id = '"@john.doe-intradef.gouv.fr:agent.intradef.tchap.gouv.fr"'
-        self.assertEqual(extract_domain_from_email(extract_email_from_user_id(user_id)), "intradef.gouv.fr")
+        email = "john.doe@intradef.gouv.fr"
+        self.assertEqual(extract_domain_from_email(email), "intradef.gouv.fr")
 
 
 if __name__ == "__main__":

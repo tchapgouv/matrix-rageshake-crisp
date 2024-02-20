@@ -1,7 +1,9 @@
 import os
 import unittest
 from dotenv import load_dotenv
-from src.job_export_crips_conversation_segments_s3 import job_export_crips_conversation_segments_s3, export_crisp_conversations_segments_to_s3
+from src.job_export_crips_conversation_segments_s3 import \
+    job_export_crips_conversation_segments_s3, \
+        export_crisp_conversations_segments_to_s3
 
 class TestFileUploadToS3(unittest.TestCase):
     

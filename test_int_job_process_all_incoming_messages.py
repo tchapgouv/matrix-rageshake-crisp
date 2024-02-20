@@ -1,7 +1,14 @@
 import unittest
 
-from src.job_process_all_incoming_messages import  job_process_all_incoming_messages,process_conversation_from_email, is_email_valid, extract_domain_from_email
-from src.job_process_invalid_rageshake import extract_email_from_message, extract_user_id_from_message, extract_email_from_user_id
+from src.job_process_all_incoming_messages import \
+    job_process_all_incoming_messages, \
+        process_conversation_from_email, \
+        is_email_valid, \
+        extract_domain_from_email
+from src.job_process_invalid_rageshake import \
+    extract_email_from_message, \
+    extract_user_id_from_message, \
+    extract_email_from_user_id
 from src.ConversationIdStorage import ConversationIdStorage
 from src.utils import setLogLevel, get_messages
 

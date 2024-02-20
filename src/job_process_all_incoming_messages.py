@@ -4,8 +4,18 @@ from src.ConversationIdStorage import ConversationIdStorage
 from datetime import datetime, timedelta
 import logging
 
-from src.job_process_invalid_rageshake import process_conversation_from_rageshake, extract_segment, extract_platform_from_message, extract_voip_context_from_message, extract_domain_from_email
-from src.utils import has_tchap_team_answered, get_conversation_meta, get_conversations, get_messages, update_conversation_meta
+from src.job_process_invalid_rageshake import \
+    process_conversation_from_rageshake, \
+    extract_segment, \
+    extract_platform_from_message, \
+    extract_voip_context_from_message, \
+    extract_domain_from_email
+from src.utils import \
+    has_tchap_team_answered, \
+    get_conversation_meta, \
+    get_conversations, \
+    get_messages, \
+    update_conversation_meta
 
 
 SEGMENT_SEND_RESPONSE = "bot-send-response"

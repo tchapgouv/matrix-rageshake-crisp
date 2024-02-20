@@ -1,6 +1,11 @@
 import unittest
 
-from src.utils import get_conversations, get_messages, has_tchap_team_answered, change_conversation_state, get_conversation_state
+from src.utils import \
+    get_conversations, \
+    get_messages, \
+    has_tchap_team_answered, \
+    change_conversation_state, \
+    get_conversation_state
 from datetime import datetime, timedelta
 
 class TestFunctions(unittest.TestCase):

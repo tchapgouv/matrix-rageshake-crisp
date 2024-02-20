@@ -2,7 +2,17 @@ import unittest
 import random
 import string
 
-from src.job_process_invalid_rageshake import extract_segment,update_conversation_meta, extract_email_from_user_id, extract_email_from_message, extract_user_id_from_message, extract_platform_from_message, extract_voip_context_from_message, extract_domain_from_email, process_conversation_from_rageshake,get_invalid_conversations,get_messages
+from src.job_process_invalid_rageshake import \
+    extract_segment, \
+    update_conversation_meta, \
+    extract_email_from_user_id, \
+    extract_email_from_message, \
+    extract_user_id_from_message, \
+    extract_platform_from_message, \
+    extract_voip_context_from_message, \
+    extract_domain_from_email, \
+    process_conversation_from_rageshake, \
+    get_invalid_conversations,get_messages
 
 
 #utils functions

@@ -2,7 +2,7 @@ import unittest
 import random
 import string
 
-from src.job_process_invalid_rageshake import extract_segment,update_conversation_meta, extract_email_from_user_id, extract_email_from_message, extract_user_id_from_message, extract_platform_from_message, extract_voip_context_from_message, process_conversation_from_rageshake,get_invalid_conversations,get_messages
+from src.job_process_invalid_rageshake import extract_segment,update_conversation_meta, extract_email_from_user_id, extract_email_from_message, extract_user_id_from_message, extract_platform_from_message, extract_voip_context_from_message, extract_domain_from_email, process_conversation_from_rageshake,get_invalid_conversations,get_messages
 
 
 #utils functions
@@ -111,6 +111,24 @@ class TestFunctions(unittest.TestCase):
 
         message = None
         self.assertIsNone(extract_voip_context_from_message(message))
+
+
+    def test_extract_domain_from_message(self):
+        user_id = None
+        self.assertIsNone(extract_domain_from_email(user_id))
+
+        user_id = '"@john.doe-unknown.gouv.fr:agent.dinum.tchap.gouv.fr"'
+        self.assertIsNone(extract_domain_from_email(extract_email_from_user_id(user_id)))
+        
+        user_id = '"@john.doe-beta.gouv.fr:agent.dinum.tchap.gouv.fr"'
+        self.assertEqual(extract_domain_from_email(extract_email_from_user_id(user_id)), "beta.gouv.fr")
+
+        user_id = '"@john.doe-developpement-durable.gouv.fr:agent.dev-durable.tchap.gouv.fr"'
+        self.assertEqual(extract_domain_from_email(extract_email_from_user_id(user_id)), "developpement-durable.gouv.fr")
+
+        user_id = '"@john.doe-intradef.gouv.fr:agent.intradef.tchap.gouv.fr"'
+        self.assertEqual(extract_domain_from_email(extract_email_from_user_id(user_id)), "intradef.gouv.fr")
+
 
 if __name__ == "__main__":
     unittest.main() 

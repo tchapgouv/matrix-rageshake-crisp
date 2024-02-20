@@ -91,6 +91,8 @@ def extract_email_from_user_id(user_id):
         r"douane\.finances\.gouv\.fr": lambda m: f"{m.group(1)}@douane.finances.gouv.fr",
         r"finances\.gouv\.fr": lambda m: f"{m.group(1)}@finances.gouv.fr",
         r"dgfip\.finances\.gouv\.fr": lambda m: f"{m.group(1)}@dgfip.finances.gouv.fr",
+        r"developpement-durable\.gouv\.fr": lambda m: f"{m.group(1)}@developpement-durable.gouv.fr",
+        r"beta\.gouv\.fr": lambda m: f"{m.group(1)}@beta.gouv.fr",
     }
 
     for domain_regex, extraction_func in domain_regexes.items():
@@ -146,6 +148,20 @@ def extract_platform_from_message(message_content: str) -> Optional[str]:
     return SEGMENT_PLATFORM_WEB
 
 
+def extract_domain_from_email(email: str) -> Optional[str]:
+    if not isinstance(email, str):
+        return None
+
+    try:
+        arobase_index = email.index('@')
+    except ValueError:
+        return None
+    
+    domain_lower = email.lower()[arobase_index+1:len(email)]
+
+    return domain_lower
+
+
 def extract_voip_context_from_message(message_content: str) -> Optional[str]:
     if not isinstance(message_content, str):
         return None
@@ -198,6 +214,9 @@ def process_conversation_from_rageshake(conversation_id:str, verbose=False) -> b
                 voip_context = extract_voip_context_from_message(combined_messages)
                 if voip_context:
                     segments.append(voip_context)
+                domain = extract_domain_from_email(email)
+                if domain:
+                    segments.append(domain)
                 update_conversation_meta(conversation_id=conversation_id, email=email, segments=segments)
                 return True
         return False

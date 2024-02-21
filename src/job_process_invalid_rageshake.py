@@ -5,7 +5,7 @@ from typing import Optional, Dict, List
 from dotenv import load_dotenv
 from src.ConversationIdStorage import ConversationIdStorage
 import logging
-from src.utils import get_auth_headers, get_messages, update_conversation_meta
+from src.utils import get_auth_headers, get_messages, update_conversation_meta, get_conversation_email
 
 """
 This script is meant to be run every minute or so by a cron job
@@ -196,12 +196,16 @@ def process_conversation_from_rageshake(conversation_id:str, verbose=False) -> b
 
         email = extract_email_from_message(combined_messages)
         userId = extract_user_id_from_message(combined_messages)
-        if verbose: 
-            logging.debug(f"found in {conversation_id}: userId: {userId}, email {email}")
 
         if not email or email == 'undefined':
             email = extract_email_from_user_id(userId)
         
+        if not email or email == 'undefined':
+            email = get_conversation_email(conversation_id)
+        
+        if verbose: 
+            logging.debug(f"found in {conversation_id}: userId: {userId}, email {email}")
+
         if email:
             if not DRY_RUN:
                 segment = extract_segment(combined_messages)

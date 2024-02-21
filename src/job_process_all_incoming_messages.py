@@ -16,6 +16,7 @@ from src.job_process_invalid_rageshake import \
 from src.utils import \
     has_tchap_team_answered, \
     get_conversation_meta, \
+    get_conversation_email, \
     get_conversations, \
     get_messages, \
     update_conversation_meta
@@ -103,11 +104,15 @@ def process_conversation_from_email(conversation_id:str, verbose=False) -> bool:
         # try to grab email to extract domain
         email = extract_email_from_message(combined_messages)
         userId = extract_user_id_from_message(combined_messages)
-        if verbose: 
-            logging.debug(f"found in {conversation_id}: userId: {userId}, email {email}")
 
         if not email or email == 'undefined':
             email = extract_email_from_user_id(userId)
+
+        if not email or email == 'undefined':
+            email = get_conversation_email(conversation_id)
+
+        if verbose: 
+            logging.debug(f"found in {conversation_id}: userId: {userId}, email {email}")
 
         # if email of user is correct (not the default one) continue with segments
         logging.debug(f"Email is correct in conversation : {conversation_id}")

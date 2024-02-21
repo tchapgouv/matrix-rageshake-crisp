@@ -126,9 +126,10 @@ def process_conversation_from_email(conversation_id:str, verbose=False) -> bool:
         voip_context = extract_voip_context_from_message(combined_messages)
         if voip_context:
             segments.append(voip_context)
-        domain = extract_domain_from_email(email)
-        if domain:
-            segments.append(domain)
+        # suspend domain tagging
+        # domain = extract_domain_from_email(email)
+        # if domain:
+        #     segments.append(domain)
         # conversation should be in "unresolved" state before updating segments
         # change_conversation_state(conversation_id, "unresolved")
         update_conversation_meta(conversation_id=conversation_id, segments=segments)

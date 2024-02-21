@@ -218,9 +218,10 @@ def process_conversation_from_rageshake(conversation_id:str, verbose=False) -> b
                 voip_context = extract_voip_context_from_message(combined_messages)
                 if voip_context:
                     segments.append(voip_context)
-                domain = extract_domain_from_email(email)
-                if domain:
-                    segments.append(domain)
+                # suspend domain tagging
+                # domain = extract_domain_from_email(email)
+                # if domain:
+                #     segments.append(domain)
                 update_conversation_meta(conversation_id=conversation_id, email=email, segments=segments)
                 return True
         return False

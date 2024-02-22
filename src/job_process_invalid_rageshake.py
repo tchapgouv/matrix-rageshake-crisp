@@ -80,6 +80,9 @@ def get_invalid_conversations(page_number: int) -> List[Dict]:
 #this function uses custom regex to extract email
 #we want to avoid false positive, this is why we dont use a general regexp
 def extract_email_from_user_id(user_id):
+    if not isinstance(user_id, str):
+        return None
+    
     # Dictionary mapping domain regex to extraction function
     domain_regexes = {
         r"diplomatie\.gouv\.fr": lambda m: f"{m.group(1)}@diplomatie.gouv.fr",

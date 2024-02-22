@@ -2,17 +2,14 @@ import unittest
 
 from src.job_process_all_incoming_messages import \
     job_process_all_incoming_messages, \
-        process_conversation_from_email, \
-        is_email_valid, \
-        extract_domain_from_email, \
-        segment_domain_from_email
+    process_conversation_from_email, \
+    is_email_valid
 from src.job_process_invalid_rageshake import \
     extract_email_from_message, \
-    extract_user_id_from_message, \
-    extract_email_from_user_id
+    extract_domain_from_email
 from src.ConversationIdStorage import ConversationIdStorage
 from src.utils import setLogLevel, get_messages, get_conversation_origin_email
-import logging
+from src.segment_domains import segment_domain_from_email
 
 class TestFunctions(unittest.TestCase):
     
@@ -65,6 +62,9 @@ class TestFunctions(unittest.TestCase):
         self.assertEqual(segment_domain_from_email("john.doe@economie-solidaire.gouv.fr"), "social")
         self.assertEqual(segment_domain_from_email("john.doe@ints.fr"), "social")
         self.assertEqual(segment_domain_from_email("john.doe@social.gouv.fr"), "social")
+        self.assertEqual(segment_domain_from_email("john.doe@intradef.gouv.fr"), "intradef")
+        self.assertEqual(segment_domain_from_email("john.doe@justice.gouv.fr"), "justice")
+        self.assertEqual(segment_domain_from_email("john.doe@apij-justice.fr"), "justice")
        
 
 if __name__ == "__main__":

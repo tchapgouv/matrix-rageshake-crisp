@@ -6,7 +6,7 @@ from dotenv import load_dotenv
 from src.ConversationIdStorage import ConversationIdStorage
 import logging
 from src.utils import get_auth_headers, get_messages, update_conversation_meta, get_conversation_origin_email
-from src.job_process_all_incoming_messages import segment_domain_from_email
+from src.segment_domains import segment_domain_from_email
 
 """
 This script is meant to be run every minute or so by a cron job

@@ -46,7 +46,7 @@ def get_conversation_meta(conversation_id: str) -> dict:
     response.raise_for_status()  # s'assurer que la requête a été réussie
     return response.json()  # renvoie le contenu de la réponse en tant que dictionnaire JSON
 
-def get_conversation_email(conversation_id: str) -> Optional[str]:
+def get_conversation_origin_email(conversation_id: str) -> Optional[str]:
     meta = get_conversation_meta(conversation_id=conversation_id)
     try:
         return meta['data']['email']

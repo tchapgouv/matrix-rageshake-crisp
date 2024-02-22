@@ -5,7 +5,8 @@ from typing import Optional, Dict, List
 from dotenv import load_dotenv
 from src.ConversationIdStorage import ConversationIdStorage
 import logging
-from src.utils import get_auth_headers, get_messages, update_conversation_meta, get_conversation_email
+from src.utils import get_auth_headers, get_messages, update_conversation_meta, get_conversation_origin_email
+from src.segment_domains import segment_domain_from_email
 
 """
 This script is meant to be run every minute or so by a cron job
@@ -201,7 +202,7 @@ def process_conversation_from_rageshake(conversation_id:str, verbose=False) -> b
             email = extract_email_from_user_id(userId)
         
         if not email or email == 'undefined':
-            email = get_conversation_email(conversation_id)
+            email = get_conversation_origin_email(conversation_id)
         
         if verbose: 
             logging.debug(f"found in {conversation_id}: userId: {userId}, email {email}")
@@ -218,10 +219,9 @@ def process_conversation_from_rageshake(conversation_id:str, verbose=False) -> b
                 voip_context = extract_voip_context_from_message(combined_messages)
                 if voip_context:
                     segments.append(voip_context)
-                # suspend domain tagging
-                # domain = extract_domain_from_email(email)
-                # if domain:
-                #     segments.append(domain)
+                domain = segment_domain_from_email(email)
+                if domain:
+                    segments.append(domain)
                 update_conversation_meta(conversation_id=conversation_id, email=email, segments=segments)
                 return True
         return False

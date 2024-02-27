@@ -109,7 +109,7 @@ def extract_email_from_user_id(user_id):
 
 def extract_segment(message_content: str) -> str:
 
-    auto_uisi_terms = ['auto-reporting decryption error (recipient)']
+    auto_uisi_terms = ['[element-auto-uisi]']
     for term in auto_uisi_terms:
         if term in message_content.lower():
             return SEGMENT_AUTO_UISI

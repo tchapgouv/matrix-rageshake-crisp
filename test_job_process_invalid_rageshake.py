@@ -8,8 +8,7 @@ from src.job_process_invalid_rageshake import \
     extract_email_from_message, \
     extract_user_id_from_message, \
     extract_platform_from_message, \
-    extract_voip_context_from_message
-from src.job_process_all_incoming_messages import \
+    extract_voip_context_from_message, \
     extract_domain_from_email
 
 #utils functions
@@ -35,6 +34,10 @@ class TestFunctions(unittest.TestCase):
     def test_autre_segment(self):
         message_content = random_string(100)  # Génère une chaîne de caractères aléatoires de 100 caractères
         self.assertEqual(extract_segment(message_content), 'autre')
+
+    def test_auto_uisi(self):
+        message_content = "[element-auto-uisi] Auto-reporting decryption error (recipient) User message: Auto-reporting decryption error (recipient)  User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like"
+        self.assertEqual(extract_segment(message_content), 'auto-uisi')
 
     def test_extract_email_from_message(self):
         message = 'email: "julien.dauphant@beta.gouv.fr"'

@@ -43,6 +43,7 @@ SEGMENT_PLATFORM_IOS = "ios"
 SEGMENT_PLATFORM_ANDROID = "android"
 SEGMENT_PLATFORM_WEB = "web"
 SEGMENT_VOIP = "voip"
+SEGMENT_AUTO_UISI = "auto-uisi"
 
 def extract_email_from_message(message: str) -> Optional[str]:
     if not isinstance(message, str):
@@ -107,6 +108,12 @@ def extract_email_from_user_id(user_id):
     return None
 
 def extract_segment(message_content: str) -> str:
+
+    auto_uisi_terms = ['[element-auto-uisi]']
+    for term in auto_uisi_terms:
+        if term in message_content.lower():
+            return SEGMENT_AUTO_UISI
+
     # Liste des termes associés au segment 'inscription'
     inscription_terms = ['inscript', 'inscrire', 'compte']
     #suffix = ("-"+suffix if suffix is not None else "")

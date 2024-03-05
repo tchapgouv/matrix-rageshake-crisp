@@ -109,6 +109,11 @@ def extract_email_from_user_id(user_id):
 
 def extract_segment(message_content: str) -> str:
 
+    voip_terms = ['context: "voip"']
+    for term in voip_terms:
+        if term in message_content.lower():
+            return SEGMENT_VOIP
+
     auto_uisi_terms = ['[element-auto-uisi]']
     for term in auto_uisi_terms:
         if term in message_content.lower():

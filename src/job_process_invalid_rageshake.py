@@ -122,7 +122,7 @@ def extract_segment(message_content: str) -> str:
             return SEGMENT_INCRISPTION
     
     # Liste des termes associés au segment 'chiffrement'
-    chiffrement_terms = ['clé', 'chiffr', 'clef', 'cléf', 'crypte', 'crypté','illisible', 'véroui', 'verroui', 'veroui','vérroui']
+    chiffrement_terms = ['clé', 'chiffr', 'clef', 'cléf', 'crypte', 'crypté','illisible', 'véroui', 'verroui', 'veroui','vérroui','signature']
     for term in chiffrement_terms:
         if term in message_content.lower():
             return SEGMENT_CHIFFREMENT

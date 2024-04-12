@@ -39,6 +39,7 @@ SEGMENT_MOT_DE_PASSE = "mot-de-passe"
 SEGMENT_INCRISPTION = "inscription"
 SEGMENT_AUTRE = "autre"
 SEGMENT_NOTIFICATION = "notification"
+SEGMENT_SALON = "salon"
 SEGMENT_PLATFORM_IOS = "ios"
 SEGMENT_PLATFORM_ANDROID = "android"
 SEGMENT_PLATFORM_WEB = "web"
@@ -138,6 +139,12 @@ def extract_segment(message_content: str) -> str:
     for term in notification_terms:
         if term in message_content.lower():
             return SEGMENT_NOTIFICATION
+
+# Liste des termes associés au segment 'salon'
+    notification_terms = ['salon', 'admin', 'membre', 'extern']
+    for term in notification_terms:
+        if term in message_content.lower():
+            return SEGMENT_SALON
 
     return SEGMENT_AUTRE  # Retourne aucun si aucun des termes n'est trouvé
 

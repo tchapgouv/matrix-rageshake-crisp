@@ -44,6 +44,7 @@ SEGMENT_PLATFORM_IOS = "ios"
 SEGMENT_PLATFORM_ANDROID = "android"
 SEGMENT_PLATFORM_WEB = "web"
 SEGMENT_VOIP = "voip"
+SEGMENT_Proconnect = "proconnect"
 SEGMENT_AUTO_UISI = "auto-uisi"
 
 def extract_email_from_message(message: str) -> Optional[str]:
@@ -145,6 +146,13 @@ def extract_segment(message_content: str) -> str:
     for term in notification_terms:
         if term in message_content.lower():
             return SEGMENT_SALON
+
+# Liste des termes associés au segment 'proconnect'
+    proconnect_terms = ['proconnect', 'authent',  'proco']
+    for term in proconnect_terms:
+        if term in message_content.lower():
+            return SEGMENT_PROCONNECT
+    
 
     return SEGMENT_AUTRE  # Retourne aucun si aucun des termes n'est trouvé
 

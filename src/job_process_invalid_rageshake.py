@@ -44,7 +44,7 @@ SEGMENT_PLATFORM_IOS = "ios"
 SEGMENT_PLATFORM_ANDROID = "android"
 SEGMENT_PLATFORM_WEB = "web"
 SEGMENT_VOIP = "voip"
-SEGMENT_Proconnect = "proconnect"
+SEGMENT_PROCONNECT = "proconnect"
 SEGMENT_AUTO_UISI = "auto-uisi"
 
 def extract_email_from_message(message: str) -> Optional[str]:

@@ -44,6 +44,7 @@ SEGMENT_PLATFORM_IOS = "ios"
 SEGMENT_PLATFORM_ANDROID = "android"
 SEGMENT_PLATFORM_WEB = "web"
 SEGMENT_VOIP = "voip"
+SEGMENT_PROCONNECT = "proconnect"
 SEGMENT_AUTO_UISI = "auto-uisi"
 
 def extract_email_from_message(message: str) -> Optional[str]:
@@ -110,22 +111,24 @@ def extract_email_from_user_id(user_id):
 
 def extract_segment(message_content: str) -> str:
 
+    message_content_lower = message_content.lower()
+
     auto_uisi_terms = ['[element-auto-uisi]']
     for term in auto_uisi_terms:
-        if term in message_content.lower():
+        if term in message_content_lower:
             return SEGMENT_AUTO_UISI
 
     # Liste des termes associés au segment 'inscription'
     inscription_terms = ['inscript', 'inscrire', 'compte']
     #suffix = ("-"+suffix if suffix is not None else "")
     for term in inscription_terms:
-        if term in message_content.lower():
+        if term in message_content_lower:
             return SEGMENT_INCRISPTION
     
     # Liste des termes associés au segment 'chiffrement'
     chiffrement_terms = ['clé', 'chiffr', 'clef', 'cléf', 'crypte', 'crypté','illisible', 'véroui', 'verroui', 'veroui','vérroui']
     for term in chiffrement_terms:
-        if term in message_content.lower():
+        if term in message_content_lower:
             return SEGMENT_CHIFFREMENT
     
     # Liste des termes associés au segment 'mot-de-passe'
@@ -137,14 +140,21 @@ def extract_segment(message_content: str) -> str:
     # Liste des termes associés au segment 'notification'
     notification_terms = ['notif', 'push', 'alert']
     for term in notification_terms:
-        if term in message_content.lower():
+        if term in message_content_lower:
             return SEGMENT_NOTIFICATION
 
 # Liste des termes associés au segment 'salon'
     notification_terms = ['salon', 'admin', 'membre', 'extern']
     for term in notification_terms:
-        if term in message_content.lower():
+        if term in message_content_lower:
             return SEGMENT_SALON
+
+# Liste des termes associés au segment 'proconnect'
+    proconnect_terms = ['proconnect', 'authent',  'proco']
+    for term in proconnect_terms:
+        if term in message_content_lower:
+            return SEGMENT_PROCONNECT
+    
 
     return SEGMENT_AUTRE  # Retourne aucun si aucun des termes n'est trouvé
 

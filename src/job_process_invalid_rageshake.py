@@ -131,7 +131,7 @@ def extract_segment(message_content: str) -> str:
     # Liste des termes associés au segment 'mot-de-passe'
     chiffrement_terms = ['initialis', 'mot de passe', 'mdp', 'password', 'reset', 'connecter']
     for term in chiffrement_terms:
-        if term in message_content.lower():
+        if term in message_content_lower:
             return SEGMENT_MOT_DE_PASSE
 
     # Liste des termes associés au segment 'notification'

@@ -45,6 +45,7 @@ SEGMENT_PLATFORM_ANDROID = "android"
 SEGMENT_PLATFORM_WEB = "web"
 SEGMENT_VOIP = "voip"
 SEGMENT_AUTO_UISI = "auto-uisi"
+SEGMENT_PROCONNECT = "proconnect"
 
 def extract_email_from_message(message: str) -> Optional[str]:
     if not isinstance(message, str):
@@ -121,6 +122,13 @@ def extract_segment(message_content: str) -> str:
     for term in inscription_terms:
         if term in message_content.lower():
             return SEGMENT_INCRISPTION
+
+    # Liste des termes associés au segment 'proconnect'
+    inscription_terms = ['proco', 'authent']
+    #suffix = ("-"+suffix if suffix is not None else "")
+    for term in inscription_terms:
+        if term in message_content.lower():
+            return SEGMENT_PROCONNECT
     
     # Liste des termes associés au segment 'chiffrement'
     chiffrement_terms = ['clé', 'chiffr', 'clef', 'cléf', 'crypte', 'crypté','illisible', 'véroui', 'verroui', 'veroui','vérroui']

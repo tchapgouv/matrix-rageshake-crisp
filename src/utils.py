@@ -121,7 +121,7 @@ def get_conversations(params) -> List[Dict]:
 
         logging.debug(f'matching conversations : {len(matching_conversations)}')
         #avoid spamming crisp, sleep a bit
-        time.sleep(1)
+        time.sleep(3)
 
     return matching_conversations
 

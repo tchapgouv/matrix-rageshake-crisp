@@ -34,7 +34,8 @@ def start_cron():
 
     # every 'cron_shedule' seconds process new conversations
     #schedule.every(int(cron_shedule)).seconds.do(job_process_invalid_rageshake, processConversationIds=processConversationIds)
-    schedule.every(int(cron_process_all_incoming_messages)).seconds.do(job_process_all_incoming_messages, 10, processConversationIds=processConversationIds)
+    # job_process_all_incoming_messages takes minutes as parameter to check 
+    schedule.every(int(cron_process_all_incoming_messages)).seconds.do(job_process_all_incoming_messages, int(cron_process_all_incoming_messages / 60) , processConversationIds=processConversationIds)
 
     # process 10 sleepy conversations every 'cron_sleepy_conversation' hours
     schedule.every(int(cron_sleepy_conversation)).hours.do(job_process_sleepy_conversations, 10)

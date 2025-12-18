@@ -4,9 +4,12 @@ from dotenv import load_dotenv
 from src.job_export_crips_conversation_segments_s3 import \
     job_export_crips_conversation_segments_s3, \
         export_crisp_conversations_segments_to_s3
+from src.utils import setLogLevel
 
 class TestFileUploadToS3(unittest.TestCase):
     
+    setLogLevel("DEBUG")
+
     @unittest.skip("integration tests are skip by default")
     def test_upload_to_s3(self):
 
@@ -26,7 +29,7 @@ class TestFileUploadToS3(unittest.TestCase):
 
     #@unittest.skip("integration tests are skip by default")
     def test_job_sync_conversations_metabase(self):
-        job_export_crips_conversation_segments_s3(10)
+        job_export_crips_conversation_segments_s3(1)
 
 
 

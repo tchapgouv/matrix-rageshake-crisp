@@ -3,7 +3,7 @@ import os
 import datetime
 
 import os
-from src.utils import get_conversations
+from src.utils import get_conversations, extract_domain_from_email
 import boto3
 import tempfile
 from datetime import datetime, timedelta
@@ -29,7 +29,8 @@ def extract_fields(data_dict):
         "created_at": datetime.utcfromtimestamp(created_at / 1000.0).strftime('%Y-%m-%d %H:%M:%S'),
         "updated_at": datetime.utcfromtimestamp(updated_at / 1000.0).strftime('%Y-%m-%d %H:%M:%S'),
         "state" : data_dict.get("state", "N/A"),
-        "segments": data_dict["meta"].get("segments", "N/A")
+        "segments": data_dict["meta"].get("segments", "N/A"),
+        "domain": extract_domain_from_email(data_dict["meta"].get("email"))
     }
 
 # transform conversations data
@@ -47,10 +48,10 @@ def export_crisp_conversations_segments_to_s3(data):
     # Création d'un fichier temporaire csv
     with tempfile.NamedTemporaryFile(mode='w', delete=False, suffix='.csv', newline='', encoding='utf-8') as temp_file:
         writer = csv.writer(temp_file)
-        writer.writerow(['session_id', 'state', 'segment', 'created_at', 'updated_at'])  # CSV header, is it needed?
+        writer.writerow(['session_id', 'state', 'domain', 'segment', 'created_at', 'updated_at'])  # CSV header, is it needed?
         for item in data:
             for segment in item['segments']:
-                writer.writerow([item['session_id'], item['state'], segment, item['created_at'], item['updated_at']])
+                writer.writerow([item['session_id'], item['state'], item['domain'], segment, item['created_at'], item['updated_at']])
 
         temp_file_path = temp_file.name
 

@@ -36,9 +36,17 @@ Crisp plugin is defined here : https://marketplace.crisp.chat/plugins/plugin/50c
 ## Usage
 
 To run the script, simply run the following command:
+
+Use this version of boto3 with ovh else we get a `parsed_response, operation_name)
+botocore.exceptions.ClientError: An error occurred (InvalidArgument) when calling the PutObject operation: x-amz-content-sha256 must be UNSIGNED-PAYLOAD, or a valid sha256 value.`
+
+```
+boto3= "1.33.11"
+```
+
 ```
 pipenv install
-python3 extract_email_from_rageshake_on_crisp.py
+pipenv run python3 ./test_int_job_export_crisp_conversation_segments_s3.py
 ```
 
 ## deployment
@@ -47,7 +55,6 @@ Deactivate the web process in scalingo : https://doc.scalingo.com/platform/app/w
 ## Tests
 
 ```
-python3 extract_email_from_rageshake_on_crisp.test.py
+python3 -m unittest test_int_job_process_all_incoming_messages.py -v
 ```
-
 

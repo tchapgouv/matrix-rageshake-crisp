@@ -36,7 +36,7 @@ def start_cron():
     #schedule.every(int(cron_shedule)).seconds.do(job_process_invalid_rageshake, processConversationIds=processConversationIds)
     # job_process_all_incoming_messages takes minutes as parameter to check
     cron_process_all_incoming_messages_seconds = int(cron_process_all_incoming_messages)
-    process_messages_in_minutes = int((cron_process_all_incoming_messages_seconds + 120) / 60)
+    process_messages_in_minutes = int((cron_process_all_incoming_messages_seconds + 120) / 60) # add 2 minutes to the cron_process_all_incoming_messages_seconds
     logging.info(f"Scheduling job to run every {cron_process_all_incoming_messages_seconds} seconds with {process_messages_in_minutes} minutes parameter")
     schedule.every(cron_process_all_incoming_messages_seconds).seconds.do(job_process_all_incoming_messages, process_messages_in_minutes , processConversationIds=processConversationIds)
 

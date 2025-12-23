@@ -45,14 +45,14 @@ def job_process_all_incoming_messages(from_minutes:int, processConversationIds:C
     
     Args:
     - processConversationIds: A ConversationIdStorage object containing the IDs of already processed conversations.
-    - from_minutes: conversations will be gathered from a timestamp-from_minutes. Ie 20
+    - from_minutes: conversations will be gathered from a timestamp-from_minutes
     
     Returns: None
     """
 
     logging.debug(f'Start job_process_all_incoming_messages with from_minutes : {from_minutes}')
 
-    # get conversations from last 20 minutes
+    # get conversations from last `from_minutes` minutes
     recent_conversations = get_conversations({
             "filter_date_end" : datetime.now(),
             "filter_date_start" : datetime.now() - timedelta(minutes=from_minutes) #timezone...

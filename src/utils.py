@@ -177,3 +177,16 @@ def has_tchap_team_answered(conversation_id:str):
             has_tchap_team_answered = True
 
     return has_tchap_team_answered
+
+def extract_domain_from_email(email: str) -> Optional[str]:
+    if not isinstance(email, str):
+        return None
+
+    try:
+        arobase_index = email.index('@')
+    except ValueError:
+        return None
+    
+    domain_lower = email.lower()[arobase_index+1:len(email)]
+
+    return domain_lower

@@ -13,7 +13,7 @@ from src.segment_domains import segment_domain_from_email
 
 class TestFunctions(unittest.TestCase):
     
-    setLogLevel("INFO")
+    setLogLevel("DEBUG")
 
     @unittest.skip("integration tests are skip by default")
     def test_job(self):

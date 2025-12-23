@@ -48,15 +48,14 @@ def export_crisp_conversations_segments_to_s3(data):
     # Création d'un fichier temporaire csv
     with tempfile.NamedTemporaryFile(mode='w', delete=False, suffix='.csv', newline='', encoding='utf-8') as temp_file:
         writer = csv.writer(temp_file)
-        writer.writerow(['session_id', 'state', 'domain', 'segment', 'created_at', 'updated_at'])  # CSV header, is it needed?
+        writer.writerow(['session_id', 'state', 'segment', 'created_at', 'updated_at', 'domain'])  # CSV header, is it needed?
         for item in data:
             for segment in item['segments']:
-                writer.writerow([item['session_id'], item['state'], item['domain'], segment, item['created_at'], item['updated_at']])
+                writer.writerow([item['session_id'], item['state'], segment, item['created_at'], item['updated_at'], item['domain']])
 
         temp_file_path = temp_file.name
 
 
-    
 
     # S3 connexion 
     s3_client = boto3.client('s3',

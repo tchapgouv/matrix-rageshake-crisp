@@ -77,7 +77,7 @@ def job_process_all_incoming_messages(from_minutes:int, processConversationIds:C
 
 def is_email_valid(conversation_id):
     conversation_email = get_conversation_origin_email(conversation_id=conversation_id)
-    return conversation_email != None and conversation_email != DEFAULT_EMAIL
+    return conversation_email is not None and conversation_email != "" and conversation_email != DEFAULT_EMAIL
 
 
 # process a conversation 

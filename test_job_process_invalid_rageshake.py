@@ -107,6 +107,10 @@ class TestFunctions(unittest.TestCase):
         expected_platform_id = 'android'
         self.assertEqual(extract_platform_from_message(message), expected_platform_id)
 
+        for user_agent in ['tchap-windows', 'tchap-mac', 'tchap-linux']:
+            message = f'User-Agent: "{user_agent}"'
+            self.assertEqual(extract_platform_from_message(message), 'desktop')
+
         message = 'User-Agent: "undefined"'
         expected_platform_id = 'web'
         self.assertEqual(extract_platform_from_message(message), expected_platform_id)

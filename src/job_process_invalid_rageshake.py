@@ -30,6 +30,7 @@ USER_ID_REGEX = r"user_id: ?\s*\"([^\"]+)\""
 # User-Agent: "iOS"
 PLATFORM_IOS_REGEX = r"user-agent: \"ios\""
 PLATFORM_ANDROID_REGEX = r"user-agent: \"tchap/[0-9\.]*(-dev){0,1} \(.* android [0-9]+; .*\)\""
+PLATFORM_DESKTOP_REGEX = r"user-agent: \"tchap-(windows|mac|linux)\""
 
 VOIP_REGEX = r"context: \"voip\""
 
@@ -42,6 +43,7 @@ SEGMENT_NOTIFICATION = "notification"
 SEGMENT_SALON = "salon"
 SEGMENT_PLATFORM_IOS = "ios"
 SEGMENT_PLATFORM_ANDROID = "android"
+SEGMENT_PLATFOR_DESKTOP = "desktop"
 SEGMENT_PLATFORM_WEB = "web"
 SEGMENT_VOIP = "voip"
 SEGMENT_AUTO_UISI = "auto-uisi"
@@ -170,6 +172,10 @@ def extract_platform_from_message(message_content: str) -> Optional[str]:
     platform_match_android = re.search(PLATFORM_ANDROID_REGEX, message_content_lower)
     if platform_match_android:
         return SEGMENT_PLATFORM_ANDROID
+
+    platform_match_desktop = re.search(PLATFORM_DESKTOP_REGEX, message_content_lower)
+    if platform_match_android:
+        return SEGMENT_PLATFORM_DESKTOP
 
     return SEGMENT_PLATFORM_WEB
 
